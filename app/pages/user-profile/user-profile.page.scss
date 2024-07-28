@@ -1,0 +1,25 @@
+ion-item {
+	--padding-top: 6px;
+	--padding-bottom: 6px;
+}
+
+.error {
+	width: 100%;
+	padding: 10px 0;
+	background: #f04141;
+	color: #fff;
+}
+
+.label-stacked {
+	font-size: 21px;
+	margin: -8px 0 5px 0;
+}
+.item-has-focus {
+	.label-stacked {
+		color: #673ab7;
+	}
+}
+
+ion-input {
+	font-size: 21px;
+}

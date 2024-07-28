@@ -1,0 +1,116 @@
+<ion-header mode="ios">
+  <ion-toolbar>
+    <ion-title text-center><ion-icon name="mail" mode="ios"></ion-icon> 쪽지보내기</ion-title>
+    <ion-buttons slot="end" mode="md">
+    	<ion-button (click)="close()">
+      	<ion-icon slot="icon-only" name="close" mode="md"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content id="msg-wrap">
+
+	<ion-list mode="ios" padding>
+		<div class="post-avatar" margin-top *ngIf="user">
+			<img [src]="user.profile.profile_image?user.profile.profile_image:images" />
+			<div class="username">To. {{ user.username }} <span class="text">님에게...</span></div>
+			<div class="heart-one"><ion-icon name="heart"></ion-icon></div>
+	  	<div class="heart-two"><ion-icon name="heart"></ion-icon></div>
+		</div>
+	</ion-list>
+
+	<ion-list text-center>
+		<ion-text color="tertiary" class="info">※ 보낼 문구가 필요하시면 아래를 누르세요</ion-text>
+		<div class="chip-field" *ngIf="user.profile.gender=='female'">
+			<div>
+				<ion-chip [ngClass]="{ 'selected': chip=='m1' }" (click)="message('m1')">
+				  <ion-label>산행 1</ion-label>
+				</ion-chip>
+				<ion-chip [ngClass]="{ 'selected': chip=='m2' }" (click)="message('m2')">
+				  <ion-label>산행 2</ion-label>
+				</ion-chip>
+				<ion-chip [ngClass]="{ 'selected': chip=='m3' }" (click)="message('m3')">
+				  <ion-label>산행 3</ion-label>
+				</ion-chip>
+				<ion-chip [ngClass]="{ 'selected': chip=='m4' }" (click)="message('m4')">
+				  <ion-label>산행 4</ion-label>
+				</ion-chip>
+				<ion-chip [ngClass]="{ 'selected': chip=='m5' }" (click)="message('m5')">
+				  <ion-label>산행 5</ion-label>
+				</ion-chip>
+			</div>
+			<div>
+				<ion-chip [ngClass]="{ 'selected': chip=='f1' }" (click)="message('f1')">
+				  <ion-label>친구 1</ion-label>
+				</ion-chip>
+				<ion-chip [ngClass]="{ 'selected': chip=='f2' }" (click)="message('f2')">
+				  <ion-label>친구 2</ion-label>
+				</ion-chip>
+				<ion-chip [ngClass]="{ 'selected': chip=='f3' }" (click)="message('f3')">
+				  <ion-label>친구 3</ion-label>
+				</ion-chip>
+				<ion-chip [ngClass]="{ 'selected': chip=='f4' }" (click)="message('f4')">
+				  <ion-label>친구 4</ion-label>
+				</ion-chip>
+				<ion-chip [ngClass]="{ 'selected': chip=='f5' }" (click)="message('f5')">
+				  <ion-label>친구 5</ion-label>
+				</ion-chip>
+			</div>
+		</div>
+		<div class="chip-field" *ngIf="user.profile.gender=='male'">
+			<div>
+				<ion-chip [ngClass]="{ 'selected': chip=='h1' }" (click)="message('h1')">
+					<ion-label>인사 1</ion-label>
+				</ion-chip>
+				<ion-chip [ngClass]="{ 'selected': chip=='h2' }" (click)="message('h2')">
+					<ion-label>인사 2</ion-label>
+				</ion-chip>
+				<ion-chip [ngClass]="{ 'selected': chip=='h3' }" (click)="message('h3')">
+					<ion-label>인사 3</ion-label>
+				</ion-chip>
+				<ion-chip [ngClass]="{ 'selected': chip=='w1' }" (click)="message('w1')">
+					<ion-label>날씨 1</ion-label>
+				</ion-chip>
+				<ion-chip [ngClass]="{ 'selected': chip=='w2' }" (click)="message('w2')">
+					<ion-label>날씨 2</ion-label>
+				</ion-chip>
+			</div>
+			<div>
+				<ion-chip [ngClass]="{ 'selected': chip=='w3' }" (click)="message('w3')">
+					<ion-label>날씨 3</ion-label>
+				</ion-chip>
+				<ion-chip [ngClass]="{ 'selected': chip=='ff1' }" (click)="message('ff1')">
+					<ion-label>친구 1</ion-label>
+				</ion-chip>
+				<ion-chip [ngClass]="{ 'selected': chip=='ff2' }" (click)="message('ff2')">
+					<ion-label>친구 2</ion-label>
+				</ion-chip>
+				<ion-chip [ngClass]="{ 'selected': chip=='ff3' }" (click)="message('ff3')">
+					<ion-label>친구 3</ion-label>
+				</ion-chip>
+				<ion-chip [ngClass]="{ 'selected': chip=='ff4' }" (click)="message('ff4')">
+					<ion-label>친구 4</ion-label>
+				</ion-chip>
+			</div>
+		</div>
+	</ion-list>
+	<ion-list padding>
+	
+		<form [formGroup]="msgForm" novalidate>
+
+		<ion-item class="text-field">
+		  <ion-label position="stacked" color="tertiary">쪽지 보내기</ion-label>
+		  <ion-textarea formControlName="message" rows="4" placeholder="문구를 선택하거나 입력하세요."></ion-textarea>
+		  <ion-buttons slot="end" class="btn-send">
+		    <ion-button color="tertiary" (click)="submit()" [disabled]="!msgForm.valid">
+		      <ion-icon slot="icon-only" name="send" mode="md"></ion-icon>
+		    </ion-button>
+	  	</ion-buttons>
+		</ion-item>
+
+		</form>
+
+	</ion-list>
+
+</ion-content>

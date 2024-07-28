@@ -1,0 +1,99 @@
+<ion-header mode="ios">
+  <ion-toolbar color="tertiary">
+  	<ion-buttons slot="start">
+      <ion-back-button defaultHref="pages/message" mode="md"></ion-back-button>
+    </ion-buttons>
+		<ion-avatar slot="start" *ngIf="target" (click)="ModalProfile(target.user)">
+			<ion-img [src]="target.user.profile.profile_image?target.user.profile.profile_image:images" (ionError)="loadDefault($event)"></ion-img>
+		</ion-avatar>
+		<ion-title *ngIf="target">{{target.user.username}}</ion-title>
+		<ion-buttons slot="end">
+			<ion-button (click)="report()">
+				<ion-icon slot="icon-only" name="megaphone" mode="ios"></ion-icon>
+			</ion-button>
+		</ion-buttons>
+		<ion-buttons slot="end">
+			<ion-button (click)="chatOut()">
+				<ion-icon slot="icon-only" name="exit" mode="md"></ion-icon>
+			</ion-button>
+		</ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="light" class="chat-content">
+
+	<ion-infinite-scroll position="top" threshold="50px" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>    	
+
+		<!-- <div *ngIf="chats && !chats.length">님과 채팅을 시작하려고 합니다.</div> -->
+
+    <ion-list no-margin no-padding>
+			<ng-container *ngIf="user">
+			
+  		<div *ngFor="let chat of chats; let i = index" class="item" [id]="'msg-' + (chat.user._id==user._id ? user._id : target.user._id) + '-' + (chat.created_at | timestamp)" [ngClass]="{ 'me': chat.user && chat.user._id==user._id }">
+				<div class="chat-field" *ngIf="chat.user && chat.user._id==target.user._id">
+    			<div class="chat-bubble left">
+            <div class="chat-message" *ngIf="chat.type == 'text'" [innerHtml]="chat.message | nl2br"></div>
+            <div class="chat-message image" *ngIf="chat.type == 'image'">
+        	  	<ion-thumbnail>
+        	  		<ion-img [src]="chat.message" (ionImgDidLoad)="imageLoaded(chat)" (click)="imageViewModal(chat.image)"></ion-img>
+        	  	</ion-thumbnail>
+        	  </div>
+            <div>
+            	<div class="date">{{chat.created_at | date:'M.d H:mm':'+0900'}}</div>
+            	<!-- <div class="readCount">1</div> -->
+            </div>
+            <span class="spinner date-field none"></span>
+          </div>
+				</div>
+        <div class="chat-field" *ngIf="chat.user && chat.user._id==user._id">
+        	<div class="chat-bubble right">
+        	  <div class="chat-message" *ngIf="chat.type == 'text'" [innerHtml]="chat.message | nl2br"></div>
+        	  <div class="chat-message image" *ngIf="chat.type == 'image'">
+							<ion-thumbnail>
+        	  		<ion-img [src]="chat.message" (ionImgDidLoad)="imageLoaded(chat)" (click)="imageViewModal(chat.image)"></ion-img>
+        	  	</ion-thumbnail>
+						</div>
+        	  <div class="date-field">
+        	  	<div class="date">{{chat.created_at | date:'M.d H:mm':'+0900'}}</div>
+        	  	<div class="readCount" *ngIf="!target_participant.last_read || (target_participant.last_read | timestamp) < (chat.created_at | timestamp)">1</div>
+        	  </div>
+        	  <ion-spinner name="lines-small" class="spinner none"></ion-spinner>
+        	  <ion-icon name="refresh-circle" color="danger" class="refresh none" (click)="refresh(chat, i)"></ion-icon>
+        	</div>
+        </div>
+  		</div>
+			</ng-container>
+
+		</ion-list>
+		
+		
+		
+</ion-content>
+
+<ion-footer>
+
+    <ion-toolbar>
+
+				<ion-buttons slot="start">
+			    <ion-button color="medium" (click)="attach()">
+			      <ion-icon slot="icon-only" name="add-circle-outline"></ion-icon>
+			    </ion-button>
+		  	</ion-buttons>
+
+        <ion-textarea spellcheck="true" required="true" autocorrect="true" rows="1" class="chat-input" [(ngModel)]="message" placeholder="메시지" (ionBlur)="blur()" (ionFocus)="focus()">
+        </ion-textarea>
+
+        <ion-buttons slot="end">
+			    <ion-button color="tertiary" (click)="addChat('text')" [disabled]="!message">
+			      <ion-icon slot="icon-only" name="send" mode="md"></ion-icon>
+			    </ion-button>
+		  	</ion-buttons>
+
+    </ion-toolbar>
+
+</ion-footer>

@@ -1,0 +1,54 @@
+<ion-header mode="ios">
+  <ion-toolbar>
+    <ion-title text-center>불량회원 신고하기</ion-title>
+    <ion-buttons slot="end" mode="md">
+      <ion-button (click)="close(false)">
+        <ion-icon slot="icon-only" name="close" mode="md"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <form [formGroup]="reportForm" novalidate>
+  <ion-list mode="ios">
+    <ion-radio-group formControlName="reportNum" (ionChange)="change($event)">
+      <ion-item lines="full" mode="md">
+        <ion-label>불쾌감을 주는 언행(욕설, 비방 등)</ion-label>
+        <ion-radio slot="end" color="tertiary" value=1 checked></ion-radio>
+      </ion-item>
+      <ion-item lines="full" mode="md">
+        <ion-label>사생활 침해</ion-label>
+        <ion-radio slot="end" color="tertiary" value=2></ion-radio>
+      </ion-item>
+      <ion-item lines="full" mode="md">
+        <ion-label>광고, 홍보성 글</ion-label>
+        <ion-radio slot="end" color="tertiary" value=3></ion-radio>
+      </ion-item>
+      <ion-item lines="full" mode="md">
+        <ion-label>가짜 프로필 사진</ion-label>
+        <ion-radio slot="end" color="tertiary" value=4></ion-radio>
+      </ion-item>
+      <ion-item lines="full" mode="md">
+        <ion-label>허위 가입(성별, 나이 등)</ion-label>
+        <ion-radio slot="end" color="tertiary" value=5></ion-radio>
+      </ion-item>
+      <ion-item lines="full" mode="md">
+        <ion-label>기타</ion-label>
+        <ion-radio slot="end" color="tertiary" value=99></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+    <ion-item mode="md" *ngIf="etcText">
+      <ion-label position="stacked" mode="md">(추가 입력란)</ion-label>
+      <ion-textarea color="tertiary" placeholder="입력하세요." formControlName="etcMsg"></ion-textarea>
+    </ion-item>
+  </ion-list>
+  </form>
+
+</ion-content>
+<ion-footer mode="ios">
+  <ion-button expand="block" size="large" color="tertiary" strong margin (click)="submit()">
+    신고하기
+  </ion-button>
+</ion-footer>

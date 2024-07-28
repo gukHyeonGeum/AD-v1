@@ -1,0 +1,64 @@
+<ion-header mode="ios">
+  <ion-toolbar>
+    <ion-buttons slot="start" mode="md">
+      <ion-button (click)="close(false)">
+        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>계정 아이디</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list mode="md">
+    <ion-item-divider color="light" mode="md">
+      <ion-label>
+        <strong>아이디(휴대폰 번호)</strong>
+      </ion-label>
+    </ion-item-divider>
+    <ion-item lines="full" mode="md">
+      <ion-label>
+        <ion-text color="tertiary" *ngIf="me">
+          <h1>{{ me.hp }}</h1>
+        </ion-text>
+      </ion-label>
+    </ion-item>
+    <ion-item-divider color="light" mode="md">
+      <ion-label>
+        <strong>탈퇴하기</strong>
+      </ion-label>
+    </ion-item-divider>
+    <div margin-top>
+      <form [formGroup]="certificationForm" class="phone-field">
+        <ion-item lines="full" mode="md">
+          <ion-label position="stacked" mode="md"><strong>휴대폰 인증</strong></ion-label>
+          <ion-input type="tel" formControlName="phone" placeholder="번호를 입력하세요" readonly></ion-input>
+          <ion-button color="tertiary" size="default" slot="end" (click)="send()" [disabled]="!certificationForm.valid" *ngIf="!isSms">
+            인증번호 전송
+          </ion-button>
+          <ion-button color="tertiary" fill="outline" size="default" slot="end" (click)="send()" [disabled]="!certificationForm.valid" *ngIf="isSms">
+            재전송
+          </ion-button>
+        </ion-item>
+      </form>
+    </div>
+    <div margin-top>
+      <form [formGroup]="certNumberForm" class="phone-field">
+        <div *ngIf="isSms">
+          <ion-item lines="full" mode="md">
+            <ion-label position="stacked" mode="md"><strong>인증번호</strong></ion-label>
+            <ion-input type="text" formControlName="certNumber" placeholder="인증번호 4자리"></ion-input>
+            <ion-button color="tertiary" size="default" slot="end" (click)="confirmation()" [disabled]="!certNumberForm.valid">인증하기</ion-button>
+          </ion-item>
+        </div>
+      </form>
+    </div>
+  </ion-list>
+  <!-- <ion-list mode="md" *ngIf="isSms">
+    <ion-item color="light" lines="none" mode="md">
+      <ion-label text-center>
+        인증번호 {{ randNumber }}
+      </ion-label>
+    </ion-item>	
+  </ion-list> -->
+</ion-content>

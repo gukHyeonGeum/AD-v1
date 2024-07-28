@@ -1,0 +1,138 @@
+ion-fab.fab-bottom{
+	display: flex;
+	// width: 100%;
+	margin-left: -72px;
+	flex-direction: row;
+	justify-content: center;
+	position: fixed;
+	padding-bottom: 10px;
+	ion-fab-button {
+		margin: 0 8px;
+	}
+}
+
+ion-fab {
+	&.fab-close {
+		position: fixed;
+	}
+	&.fab-close, &.fab-pictureLength {
+		padding-top: constant(safe-area-inset-top);
+		padding-top: env(safe-area-inset-top);
+	}
+}
+
+.ion-color-dark {
+  --ion-color-base: rgba(34, 36, 40, 0.2) !important;
+}
+
+.userInfo {
+	position: relative;
+	padding-top: 0;
+}
+.userReport {
+	position: absolute;
+	top: 28px;
+	right: 15px;
+}
+
+ion-slides img {
+	object-fit: cover;
+	// height: calc(100vh - 55px);
+}
+
+ion-list {
+	ion-item {
+		ion-label {
+			max-width: 110px;
+		}
+	}
+}
+
+ion-grid {
+	ion-row {
+		padding-bottom: 10px;
+		ion-col:first-child {
+			max-width: 120px !important;
+		}
+		ion-col:last-child {
+			font-weight: bold
+		}
+	}
+}
+
+.profile-wrap {
+	position: relative;
+	margin-bottom: 70px;
+	padding-top: constant(safe-area-inset-top);
+	padding-top: env(safe-area-inset-top);
+}
+
+.img-over {
+	position: absolute;
+  bottom: -15px;
+  left: 0;
+	width: 100%;
+  height: 30px;
+  background: #fff;
+  border-radius: 15px;
+}
+
+.typical {
+	position: absolute;
+    top: 14px;
+    left: 50%;
+    background: rgba(0, 0, 0, 0.2);
+    color: #ffffff;
+    font-size: 16px;
+    margin-left: -37px;
+    padding: 3px 5px;
+    border-radius: 5px;
+}
+
+.none-profile-img {
+	position: relative;
+}
+
+.guide-info {
+	position: absolute;
+	bottom: 60px;
+    left: 50%;
+    width: 240px;
+    margin-left: -120px;
+    padding: 0 16px;
+    font-size: 14px;
+    background-color: #232323;
+    border-radius: 8px;
+    color: #fff;
+    z-index: 20;
+}
+
+.guide-arrow {
+    position: absolute;
+	bottom: 137px;
+    left: 50%;    
+    width: 20px;
+    height: 10px;
+	margin-left: -10px;    
+    &:after {
+    	position: absolute;
+    	left: 3px;
+	    top: 3px;
+	    width: 14px;
+	    height: 14px;	    
+	    border-radius: 3px;
+	    -webkit-transform: rotate(45deg);
+	    transform: rotate(45deg);
+	    background: rgba(35,35,35,1);
+	    content: "";
+	    z-index: 10;
+    }
+}
+
+// .ios {
+// 	ion-fab {
+// 		&.fab-close, &.fab-pictureLength {
+// 			top: 0;
+// 		}
+// 	}
+// }

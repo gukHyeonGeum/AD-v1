@@ -1,0 +1,196 @@
+<ion-header>
+  <ion-toolbar>
+		<ion-buttons slot="start" mode="md">
+			<ion-button (click)="back()">
+      	<ion-icon slot="icon-only" name="arrow-back" mode="md"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title text-center>상세보기</ion-title>
+    <ion-buttons slot="end" mode="md" *ngIf="info&&!info.deleted_at && !info.is_request && !info.status">
+    	<ion-button (click)="review()">
+      	<ion-icon slot="icon-only" name="mail" mode="ios"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content color="light">
+
+	<div class="detail-wrap" *ngIf="info&&user">
+
+
+
+		<ion-list class="complete-field" *ngIf="info.status==2">
+			<p text-center>초대장의 <strong>'파트너'</strong>로 확정되었습니다</p>
+			<ion-grid>
+			  <ion-row>
+			    <ion-col offset="2" text-center>
+	    			<img [src]="info.user.profile.profile_image ? info.user.profile.profile_image : images" />
+			    </ion-col>
+			    <ion-col size="2" text-center class="ion-justify-content-between">
+			    	<ion-label>
+			    		<ion-icon slot="icon-only" name="heart" color="danger" mode="md"></ion-icon>
+			    	</ion-label>
+			    </ion-col>
+			    <ion-col text-center>
+	    			<img [src]="info.partner.user.profile.profile_image ? info.partner.user.profile.profile_image : images" *ngIf="info.partner.user._id==user._id || info.user_id==user._id" />
+	    			<img [src]="images" *ngIf="info.partner.user._id!=user._id && info.user_id!=user._id" />
+			    </ion-col>
+			    <ion-col size="2">
+			    </ion-col>
+			   </ion-row>
+		  </ion-grid>
+		</ion-list>
+
+		<ion-list mode="md">
+		  <ion-list-header mode="md">
+		    <ion-label><strong>초청자</strong></ion-label>
+		    <div class="ion-padding-end" pull-right>
+		    	<ion-text color="dark">등록일 : {{info.created_at | date:'M.d':'+0900':'ko-KR'}}</ion-text>
+		    </div>
+		  </ion-list-header>
+		
+			<ion-card>
+				<ion-item lines="none" class="request-wrap" [ngClass]="{ 'selected': info.status==2 }">
+					<ion-avatar slot="start" (click)="ModalProfile(info.user)">
+						<img [src]="info.user.profile.profile_image ? info.user.profile.profile_image : images" />
+					</ion-avatar>
+					<ion-label>
+						<h2><strong>{{info.user.username}}</strong></h2>
+						<div class="age">{{ info.user.profile.gender | gender }} {{ info.user.profile.birth | age }}, {{ info.user.profile.area | area }}</div>
+						<ion-button class="call-button" expand="block" color="tertiary" size="small" margin-top href="tel:{{info.user.hp}}" *ngIf="info.status==2 && (user._id==info.partner.user._id || user._id==info.user_id)">
+							<ion-icon slot="start" name="call" mode="ios"></ion-icon>
+							통화하기
+						</ion-button>
+					</ion-label>
+					<ion-button fill="clear" slot="end" class="size-up" mode="md" (click)="Popover($event, user, info)" *ngIf="user._id!=info.user_id">
+					  <ion-icon slot="icon-only" name="more" color="tertiary" mode="md"></ion-icon>
+					</ion-button>
+				</ion-item>
+			</ion-card>
+
+			<ng-container *ngIf="info.rsvps.length">			
+				<ion-list-header class="rsvp-field" mode="md" [hidden]="info.rsvps.length==1 && (info.rsvps[0].status==1 || (info.rsvps[0].status==3 && info.rsvps[0].deleted_at)) && user._id==info.rsvps[0].user._id">
+					<ion-label>
+						<strong>파트너신청</strong>
+						<ion-text color="danger"> {{ info.rsvps.length }}명</ion-text>
+					</ion-label>
+					<ng-container *ngIf="guideDisplay">
+						<div class="guide-info" (click)="guideClose()">
+							<p>'파트너' 선택 버튼</p>
+							<p>① 매치 확정 및 통지</p>
+							<p>② 서로에게 통화 가능</p>
+						</div>
+						<div class="guide-arrow"></div>
+					</ng-container>
+					<ng-container *ngIf="user._id!=info.user_id">
+						<ion-button fill="clear" color="tertiary" (click)="guideHelp()">
+							<ion-icon slot="icon-only" name="help-circle" mode="ios"></ion-icon>
+						</ion-button>
+						<div class="guide-help" (click)="guideHelp()" *ngIf="guideDisplayHelp">
+							<p>'파트너'로 선택되면</p>
+							<p>① 매치 확정 및 통지</p>
+							<p>② 서로에게 통화 가능</p>
+							<div class="guide-arrow help-arrow"></div>
+						</div>
+					</ng-container>
+				</ion-list-header>
+				<ion-card>
+					<ng-container *ngFor="let rsvp of info.rsvps">
+						<ion-item 
+							[hidden]="(rsvp.status==1 || (rsvp.status==3 && rsvp.deleted_at)) && user._id==rsvp.user._id"
+							[ngClass]="{ 'selected': info.status==2 && rsvp.status==2 && !rsvp.deleted_at }" 
+							class="request-wrap"
+						>
+							<ng-container *ngIf="(user._id==info.user_id && (rsvp.status!=1 && rsvp.status!=3)) || user._id==rsvp.user._id; else avatar">
+								<ion-avatar slot="start" (click)="ModalProfile(rsvp.user)">
+									<img [src]="rsvp.user.profile.profile_image ? rsvp.user.profile.profile_image : images" />
+								</ion-avatar>
+							</ng-container>
+							<ng-template #avatar>
+								<ion-avatar slot="start">
+									<img [src]="images" />
+								</ion-avatar>
+							</ng-template>
+							<ion-label>
+								<h2>
+									<strong *ngIf="(user._id==info.user_id && (rsvp.status!=1 && rsvp.status!=3)) || user._id==rsvp.user._id">
+										{{rsvp.user.username}}
+										<ion-text color="danger" *ngIf="rsvp.status==3">{{rsvp.deleted_at ? '(취소)' : '(초청자취소)'}}</ion-text>
+									</strong>
+									<strong *ngIf="(user._id==info.user_id && (rsvp.status==1 || rsvp.status==3)) || (user._id!=info.user_id && user._id!=rsvp.user._id)">
+										비공개
+										<ion-text color="danger" *ngIf="user._id==info.user_id">
+											<span *ngIf="rsvp.status==1">(취소)</span>
+											<span *ngIf="rsvp.status==3">{{rsvp.deleted_at ? '(취소)' : '(초청자취소)'}}</span>
+										</ion-text>
+									</strong>
+								</h2>
+								<div class="age">{{ rsvp.user.profile.gender | gender }} {{ rsvp.user.profile.birth | age }}, {{ rsvp.user.profile.area | area }}</div>
+								<ng-container *ngIf="info.status==2 && rsvp.status==2 && (user._id==rsvp.user._id || user._id==info.user_id)">
+									<ion-button class="call-button" expand="block" color="tertiary" size="small" margin-top href="tel:{{rsvp.user.hp}}">
+										<ion-icon slot="start" name="call" mode="ios"></ion-icon>
+										통화하기
+									</ion-button>
+								</ng-container>
+							</ion-label>
+							<ng-container *ngIf="user._id==info.user_id && !info.deleted_at && info.status===0 && rsvp.status===4">
+								<ion-button fill="clear" slot="end" (click)="selected(info, rsvp)" class="size-up">
+									<ion-icon slot="icon-only" name="checkmark-circle" color="tertiary" mode="md"></ion-icon>
+								</ion-button>
+							</ng-container>
+							<ng-container *ngIf="(user._id==info.user_id && (rsvp.status!=1 && rsvp.status!=3)) || user._id==rsvp.user._id">
+								<ion-button fill="clear" slot="end" class="size-up" (click)="Popover($event, user, info, rsvp)">
+									<ion-icon slot="icon-only" name="more" color="tertiary" mode="md"></ion-icon>
+								</ion-button>
+							</ng-container>
+						</ion-item>
+
+					</ng-container>
+				</ion-card>
+			</ng-container>
+
+			
+			<div class="secret-msg" *ngIf="info.rsvpsLive.length">* 본인외 다른 회원에게는 비공개이니 안심하세요~</div>
+			<ion-list-header mode="md">
+		    <ion-label>
+		    	<strong>초대장</strong>
+		    </ion-label>
+		  </ion-list-header>
+
+			<ion-card class="invite-wrap">
+				<ion-item lines="none">
+			    <ion-icon name="pin" slot="start" mode="md"></ion-icon>
+			    <ion-label>{{ info.mount_name }}</ion-label>
+			  </ion-item>
+			  <ion-item lines="none">
+			    <ion-icon name="alarm" slot="start" mode="md"></ion-icon>
+			    <ion-label>{{ info.invite_time | date:'M.d(E) H:mm':'+0900':'ko-KR'}}</ion-label>
+			  </ion-item>
+			  <ion-item lines="none">
+			    <ion-icon name="cafe" slot="start" mode="ios"></ion-icon>
+			    <ion-label>{{ info.invite_option | inviteOption }}</ion-label>
+			  </ion-item>
+			</ion-card>
+		
+		</ion-list>
+		<!-- && !info.status -->
+		<div padding *ngIf="user._id!=info.user_id && !info.is_request && !info.deleted_at">
+			<ion-button color="tertiary" expand="block" size="large" (click)="request(info)">신청하기</ion-button>
+		</div>
+
+		<div text-center padding *ngIf="user._id==info.user_id && !info.deleted_at">
+			<ion-grid>
+			  <ion-row>
+			    <ion-col *ngIf="!info.rsvps.length">
+			      <ion-button color="tertiary" expand="block" size="large" class="ion-margin-end" (click)="postModify(info)">수정</ion-button>
+			    </ion-col>
+					<ion-col>
+			      <ion-button color="tertiary" expand="block" fill="outline" size="large" (click)="postEnd(info)">종료</ion-button>
+			    </ion-col>
+			  </ion-row>
+			</ion-grid>
+		</div>
+
+	</div>
+
+</ion-content>

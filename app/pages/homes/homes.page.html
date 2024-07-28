@@ -1,0 +1,32 @@
+<ion-tabs>
+
+  <ion-tab-bar slot="bottom" mode="md" id="myTabBar" (click)="refreshBadge()">
+    <ion-tab-button tab="friend">
+      <ion-icon name="people" mode="md"></ion-icon>
+      <span>추천</span>
+    </ion-tab-button>
+
+    <ion-tab-button tab="invitation">
+      <ion-icon name="mail" mode="ios"></ion-icon>
+      <span>초대장</span>
+    </ion-tab-button>
+
+    <ion-tab-button tab="like">
+      <ion-icon name="heart" mode="ios"></ion-icon>
+      <ion-badge color="danger" *ngIf="badge && badge.likeTotal" [ngClass]="{ 'badgeCnt': badge.likeTotal }">{{ badge.likeTotal }}</ion-badge>
+      <span>좋아요</span>
+    </ion-tab-button>
+
+    <ion-tab-button tab="message">
+      <ion-icon name="text" mode="ios"></ion-icon>
+      <ion-badge color="danger" *ngIf="badge && badge.message" [ngClass]="{ 'badgeCnt': badge.message }">{{ badge.message }}</ion-badge>
+			<span>채팅</span>
+    </ion-tab-button>
+
+    <ion-tab-button tab="more">
+      <ion-icon name="apps" mode="md"></ion-icon>
+      <span>더보기</span>
+    </ion-tab-button>
+  </ion-tab-bar>
+
+</ion-tabs>

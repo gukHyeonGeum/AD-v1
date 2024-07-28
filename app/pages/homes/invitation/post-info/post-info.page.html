@@ -1,0 +1,57 @@
+<ion-header mode="ios">
+  <ion-toolbar>
+    <ion-title  text-center>초대장 발송안내</ion-title>
+    <ion-buttons slot="end">
+    	<ion-button (click)="close()">
+      	<ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+	<div class="info-wrap">
+		<ion-list mode="ios">
+			<div class="title">
+				<ion-text color="tertiary" text-center>
+					<h6><strong>'파트너'를 만나는 가장 좋은 방법입니다.</strong></h6>
+				</ion-text>
+			</div>
+			<ion-card padding-top>
+				<div class="first">
+					<ion-item lines="none">
+						<ion-avatar slot="start">
+							<img [src]="send" />
+						</ion-avatar>
+						<ion-label>
+							<ion-text text-wrap>
+								① 회원님이 좋아하실 분들에게<br />초대장이 발송됩니다.
+							</ion-text>
+						</ion-label>
+					</ion-item>
+				</div>
+				<div class="second">
+					<ion-item lines="none">
+						<ion-avatar slot="start">
+							<img [src]="heart" />
+						</ion-avatar>
+						<ion-label>
+							<ion-text text-wrap>
+								② 관심있는 회원이 신청하면<br /> 파트너로 확정하시고<br /> 함께 산행하면 됩니다^^
+							</ion-text>
+						</ion-label>
+					</ion-item>
+				</div>
+			</ion-card>
+		</ion-list>
+		<div padding>
+			<ion-button expand="block" size="large" color="tertiary" strong (click)="close()">확인</ion-button>
+		</div>
+		<!-- <ion-item class="not" lines="none" text-center text-wrap>
+			<ion-checkbox color="tertiary" slot="start"></ion-checkbox>
+			<ion-label>다시보지 않기</ion-label>
+		</ion-item> -->
+	</div>
+
+</ion-content>

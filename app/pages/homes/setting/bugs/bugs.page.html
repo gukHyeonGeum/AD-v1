@@ -1,0 +1,30 @@
+<ion-header mode="ios">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/setting" mode="md"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{typeText.title}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button href="tel:028623489">
+        <ion-icon slot="icon-only" name="call" color="dark" mode="ios"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <form [formGroup]="bugsForm" novalidate>
+    <input type="hidden" formControlName="type">
+    <ion-list mode="ios">
+      <ion-item mode="md">
+        <ion-label position="stacked" mode="md">입력란</ion-label>
+        <ion-textarea color="tertiary" rows="5" formControlName="content" mode="md" placeholder="{{typeText.place}}"></ion-textarea>
+      </ion-item>
+    </ion-list>
+    <ion-button expand="block" size="large" color="tertiary" strong margin [disabled]="!bugsForm.valid" (click)="submit()">
+      {{typeText.button}}하기
+    </ion-button>
+  </form>
+
+</ion-content>

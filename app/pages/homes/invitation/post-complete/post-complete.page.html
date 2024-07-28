@@ -1,0 +1,37 @@
+<ion-header mode="ios">
+  <ion-toolbar>
+		<ion-title text-center>발송완료</ion-title>
+		<ion-buttons slot="end" mode="md">
+			<ion-button (click)="close()">
+				<ion-icon slot="icon-only" name="close" mode="md"></ion-icon>
+			</ion-button>
+		</ion-buttons>		
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+	<ion-list mode="ios">
+	  <ion-list-header>
+	    <ion-label>발송자 명단</ion-label>
+	    <div pull-right>
+	    	<ion-text color="danger">*발송자중 일부입니다.</ion-text>
+	    </div>
+	  </ion-list-header>
+	  <div class="grid-list">
+			<ul>
+				<li *ngFor="let user of filters">
+					<div class="thumb">
+						<img [src]="user.profile.profile_image ? user.profile.profile_image : images" [ngStyle]="imgStype" />
+						<div>{{ user.username }}</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</ion-list>
+
+</ion-content>
+
+<ion-footer mode="ios">
+  <ion-button margin color="tertiary" expand="block" size="large" (click)="close()">확인</ion-button>
+</ion-footer>

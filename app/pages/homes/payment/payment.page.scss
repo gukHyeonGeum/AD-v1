@@ -1,0 +1,45 @@
+ion-list {
+  background: #f4f5f8;
+}
+
+ion-label {
+  ion-text {
+    font-size: 12px;
+  }
+}
+
+ion-list-header {
+  ion-label {
+    font-size: 16px;
+    font-weight: bold;
+  }
+}
+
+ion-card {
+  margin-top: 0;
+}
+
+ion-item {
+  padding: 8px 0;
+  background: #ffffff;
+}
+
+.info {
+  font-size: 14px;
+  padding: 0 16px;
+  p {
+    margin-top: 0;
+  }
+}
+
+.match-icon {
+	display: flex;
+	margin-right: 16px;
+  ion-icon {
+    padding: 5px;
+    background: #ff5722;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 12px;
+  }
+}

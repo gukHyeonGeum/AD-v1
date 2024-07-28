@@ -1,0 +1,56 @@
+<ion-header mode="ios">
+	<ion-toolbar>
+    <ion-title text-center>
+      초대장 작성
+      <ion-icon name="help-circle" mode="md" color="tertiary" (click)="help()"></ion-icon>
+    </ion-title>
+    <ion-buttons slot="end" mode="md">
+	    <ion-button color="dark" (click)="close()">
+	      <ion-icon slot="icon-only" name="close" mode="md"></ion-icon>
+	    </ion-button>
+	  </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+
+  <form [formGroup]="searchForm" novalidate>
+    <ion-input type="hidden" formControlName="mId" value="{{searchForm.value['mId']}}"></ion-input>
+
+    <ion-list mode="ios">
+      <div class="post-avatar" text-center margin-top *ngIf="user">
+        <img [src]="user.profile.profile_image ? user.profile.profile_image : images" />
+        <div class="username">{{ user.username }}</div>
+      </div>		
+      <ion-item lines="full" mode="md" detail (click)="searchMount()">
+        <ion-label>초대하는 산</ion-label>
+        <ion-input formControlName="mName" value="{{searchForm.value['mName']}}" placeholder="검색" readonly text-right></ion-input>
+      </ion-item>
+      <ion-item lines="full" mode="md">
+        <ion-label>날짜</ion-label>
+        <ion-datetime formControlName="mDate" display-format="YYYY-MM-DD" min="{{MinDate}}" max="{{nowYear.getFullYear()+2}}" cancelText="취소" doneText="확인"></ion-datetime>
+      </ion-item>
+      <ion-item lines="full" mode="md">
+        <ion-label>시간</ion-label>
+        <ion-datetime formControlName="mTime" display-format="HH:mm" cancelText="취소" doneText="확인"></ion-datetime>
+      </ion-item>
+      <ion-item lines="full" mode="md">
+        <ion-label>초대옵션</ion-label>
+        <ion-select formControlName="mOption" placeholder="선택하세요" cancelText="취소" okText="확인">
+          <ion-select-option value="1">산행&커피</ion-select-option>
+          <ion-select-option value="2">산행&식사</ion-select-option>
+          <ion-select-option value="3">산행&막걸리</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-list>
+  </form>
+
+  <ion-list mode="md">
+    <div padding>
+      <ion-button expand="block" size="large" color="tertiary" fill="outline" strong (click)="review()" [disabled]="!searchForm.valid">미리보기</ion-button>
+      <ion-button expand="block" size="large" color="tertiary" (click)="submit()" margin-top strong *ngIf="!id" [disabled]="!searchForm.valid">발송하기</ion-button>
+      <ion-button expand="block" size="large" color="tertiary" (click)="modify()" margin-top strong *ngIf="id">수정하기</ion-button>
+        <!-- [disabled]="!searchForm.valid" -->
+    </div>
+  </ion-list>
+
+</ion-content>

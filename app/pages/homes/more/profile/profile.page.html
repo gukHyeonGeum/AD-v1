@@ -1,0 +1,133 @@
+<ion-content>
+
+	<div *ngIf="user" class="profile-wrap">
+		<ion-slides [options]="{ effect: 'flip' }" (ionSlideTransitionEnd)="change()">
+	    <ion-slide *ngFor="let pic of user.pictures; let i = index">
+	      <img src="{{ pic.thumb_name }}" [ngStyle]="profile_img" (click)="imageViewModal(user._id, i)" />
+	      <div class="typical" *ngIf="pic.typical">대표사진</div>
+	    </ion-slide>
+	    <div class="img-over"></div>
+	  </ion-slides>
+	  <div class="none-profile-img" (click)="attach()" *ngIf="!user.pictures.length">
+			<div class="guide-info">
+				<p text-center>사진 등록은 필수!</p>
+				<p text-center><ion-text color="warning">무료 1개월 이용권을 드렸습니다.</ion-text></p>
+			</div>
+			<div class="guide-arrow"></div>
+	  	<img [src]="images" [ngStyle]="profile_img" />
+	  </div>
+
+		<div padding class="userInfo">
+			<h3><strong>{{ user.username }}</strong></h3>
+			<ion-text>
+				<p>{{ user.profile.gender | gender }} {{ user.profile.birth | age }}, {{ user.profile.area | area }}</p>
+			</ion-text>
+		</div>
+		<div padding>
+			<ion-button expand="block" color="tertiary" fill="outline" strong [routerLink]="['/pages/more/profile-manage']" routerDirection="forward">프로필 등록하기</ion-button>
+		</div>
+
+		<ion-list padding>
+			<h5><strong>산행정보</strong></h5>
+			<ion-grid class="ion-no-padding" margin-top>
+			  <ion-row *ngIf="user.profile.mt_day">
+			    <ion-col size="4" class="ion-no-padding">자주가는날</ion-col>
+			    <ion-col class="ion-no-padding">{{ user.profile.mt_day | day }}</ion-col>
+			  </ion-row>
+			  <ion-row *ngIf="user.profile.mt_frequency">
+			    <ion-col size="4" class="ion-no-padding">횟수</ion-col>
+			    <ion-col class="ion-no-padding">{{ user.profile.mt_frequency | frequency }}</ion-col>
+			  </ion-row>
+			  <ion-row *ngIf="user.profile.mt_career">
+			    <ion-col size="4" class="ion-no-padding">경력</ion-col>
+			    <ion-col class="ion-no-padding">{{ user.profile.mt_career | career }}</ion-col>
+			  </ion-row>
+			  <ion-row *ngIf="user.profile.mt_level">
+			    <ion-col size="4" class="ion-no-padding">수준</ion-col>
+			    <ion-col class="ion-no-padding">{{ user.profile.mt_level | level }}</ion-col>
+			  </ion-row>
+			  <ion-row *ngIf="user.profile.mt_reason">
+			    <ion-col size="4" class="ion-no-padding">산행이유</ion-col>
+			    <ion-col class="ion-no-padding">{{ user.profile.mt_reason | reason }}</ion-col>
+			  </ion-row>
+			</ion-grid>
+		</ion-list>
+		<ion-list padding *ngIf="user.profile.mt_favorite.length">
+			<h5><strong>자주가는 산</strong></h5>
+			<div>
+				<ion-chip *ngFor="let club of user.profile.mt_favorite">
+				  <ion-label>{{club.name}}</ion-label>
+				</ion-chip>
+			</div>
+		</ion-list>
+		<ion-list padding>
+			<h5><strong>내 소개</strong></h5>
+			<ion-text text-wrap>
+			  {{ user.profile.self_introduce }}
+			</ion-text>
+			<ion-grid class="ion-no-padding" margin-top>
+			  <ion-row *ngIf="user.profile.self_character.length && user.profile.self_character!=0">
+			    <ion-col size="4" class="ion-no-padding">성격</ion-col>
+			    <ion-col class="ion-no-padding">
+			    	<span *ngFor="let item of user.profile.self_character">{{ item | character }} </span>
+			    </ion-col>
+			  </ion-row>
+			  <ion-row *ngIf="user.profile.self_smoking">
+			    <ion-col size="4" class="ion-no-padding">흡연</ion-col>
+			    <ion-col class="ion-no-padding">{{ user.profile.self_smoking | smoking }}</ion-col>
+			  </ion-row>
+			  <ion-row *ngIf="user.profile.self_drinking">
+			    <ion-col size="4" class="ion-no-padding">음주</ion-col>
+			    <ion-col class="ion-no-padding">{{ user.profile.self_drinking | drinking }}</ion-col>
+			  </ion-row>
+			  <ion-row *ngIf="user.profile.self_religion">
+			    <ion-col size="4" class="ion-no-padding">종교</ion-col>
+			    <ion-col class="ion-no-padding">{{ user.profile.self_religion | religion }}</ion-col>
+			  </ion-row>
+			</ion-grid>
+		</ion-list>
+
+		<ion-list padding>
+			<h5><strong>외모</strong></h5>
+			<ion-grid class="ion-no-padding" margin-top>
+			  <ion-row *ngIf="user.profile.self_blood">
+			    <ion-col size="4" class="ion-no-padding">혈액형</ion-col>
+			    <ion-col class="ion-no-padding">{{ user.profile.self_blood | blood }}</ion-col>
+			  </ion-row>
+			  <ion-row *ngIf="user.profile.self_body">
+			    <ion-col size="4" class="ion-no-padding">체형</ion-col>
+			    <ion-col class="ion-no-padding">{{ user.profile.self_body | body }}</ion-col>
+			  </ion-row>
+			  <ion-row *ngIf="user.profile.self_height">
+			    <ion-col size="4" class="ion-no-padding">키</ion-col>
+			    <ion-col class="ion-no-padding">{{ user.profile.self_height | height }}</ion-col>
+			  </ion-row>
+			  <ion-row *ngIf="user.profile.self_weight">
+			    <ion-col size="4" class="ion-no-padding">몸무게</ion-col>
+			    <ion-col class="ion-no-padding">{{ user.profile.self_weight | weight }}</ion-col>
+			  </ion-row>
+			</ion-grid>
+		</ion-list>
+
+		<ion-fab vertical="top" horizontal="start" slot="fixed" class="fab-close">
+			<ion-button color="dark" fill="solid" size="small" mode="ios" (click)="close()">
+		    <ion-icon name="arrow-back"></ion-icon>
+		  </ion-button>
+		</ion-fab>
+		<ion-fab vertical="top" horizontal="end" slot="fixed" class="fab-pictureLength" (click)="imageViewModal(user._id, 0)">
+			<ion-button color="dark" fill="solid" size="small" mode="ios">
+				<ng-container *ngIf="user.pictures.length">{{ slideIndex }}/{{user.pictures.length}}</ng-container>
+		    <ion-icon slot="end" name="camera"></ion-icon>
+		  </ion-button>
+		</ion-fab>
+		<ion-fab vertical="bottom" horizontal="center" slot="fixed" class="fab-bottom">
+	  	<ion-fab-button color="tertiary" (click)="attach()">
+	   	 <ion-icon name="camera"></ion-icon>
+	  	</ion-fab-button>
+			<ion-fab-button color="tertiary" (click)="profileManager()">
+	      <ion-icon name="create" mode="md"></ion-icon>
+	    </ion-fab-button>    
+	  </ion-fab>
+	</div>
+    
+</ion-content>

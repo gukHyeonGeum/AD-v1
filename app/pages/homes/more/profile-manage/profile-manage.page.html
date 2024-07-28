@@ -1,0 +1,258 @@
+<ion-header mode="ios">
+  <ion-toolbar>
+  	<ion-buttons slot="start" *ngIf="user">
+      <ion-back-button defaultHref="pages/more/profile" mode="md"></ion-back-button>
+    </ion-buttons>
+    <ion-title *ngIf="user">프로필 관리</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+	<div *ngIf="user">
+
+		<div class="thumnails" padding>
+		  <div class="list-thumbnail">
+		    <div class="img-thumb" *ngFor="let pic of user.pictures; let i = index">
+		      <img [src]="pic.thumb_name" (click)="imageViewModal(user._id, i)" (press)="thumbHold(pic, i)" />
+		      <div class="typical" *ngIf="pic.typical"><ion-icon name="checkmark-circle" mode="ios" color="tertiary"></ion-icon></div>
+		    </div>
+		    <div class="img-thumb img-thumb-none" *ngFor="let img of images">
+		      <img [src]="img" />
+		    </div>
+		  </div>
+		</div>
+		
+		<div class="ion-padding-start ion-padding-end" margin-bottom>
+			<ion-button expand="block" color="tertiary" fill="outline" strong (click)="attach()">사진 추가</ion-button>
+		</div>
+		
+		<ion-list padding-top margin-bottom mode="md">
+			<ion-item class="subject-line" lines="full" mode="md" detail (click)="myInfo()">
+			  <ion-label>
+			    <strong>기본정보</strong>
+			  </ion-label>
+			</ion-item>
+			
+			<ion-item lines="full" mode="md">
+		    <ion-label><strong>지역</strong></ion-label>
+		    <ion-select [(ngModel)]="user.profile.area" cancelText="취소" okText="확인" placeholder="선택하세요" (ionChange)="profileChange('area', $event)">
+		      <ion-select-option value="1">서울</ion-select-option>
+		      <ion-select-option value="2">경기</ion-select-option>
+		      <ion-select-option value="3">인천</ion-select-option>
+		      <ion-select-option value="4">강원</ion-select-option>
+		      <ion-select-option value="5">경북</ion-select-option>
+		      <ion-select-option value="6">경남</ion-select-option>
+		      <ion-select-option value="7">충북</ion-select-option>
+		      <ion-select-option value="8">충남</ion-select-option>
+		      <ion-select-option value="9">전북</ion-select-option>
+		      <ion-select-option value="10">전남</ion-select-option>
+		      <ion-select-option value="11">제주</ion-select-option>
+		    </ion-select>
+		  </ion-item>
+			
+			<ion-item lines="full" mode="md" detail (click)="nickChange()">
+			  <ion-label><strong>닉네임</strong></ion-label>
+			  {{ user.username }}
+			</ion-item>
+		</ion-list>
+		
+		<ion-list mode="md" margin-bottom>
+			<ion-item class="subject-line" lines="full" mode="md">
+			  <ion-label>
+			    <strong>산행정보</strong>
+			  </ion-label>
+			</ion-item>
+			
+			<ion-item lines="full" mode="md" [ngClass]="{ 'non-value': user.profile.mt_day==0 }">
+		    <ion-label><strong>자주가는날</strong></ion-label>
+		    <ion-select [(ngModel)]="user.profile.mt_day" cancelText="취소" okText="확인" placeholder="선택하세요" (ionChange)="profileChange('day', $event)">
+		    	<ion-select-option value="1">평일</ion-select-option>
+		    	<ion-select-option value="2">주말(공휴일)</ion-select-option>
+		    	<ion-select-option value="3">평일&주말 모두</ion-select-option>
+		    </ion-select>
+		  </ion-item>
+		  <ion-item lines="full" mode="md" [ngClass]="{ 'non-value': user.profile.mt_frequency==0 }">
+		    <ion-label><strong>횟수</strong></ion-label>
+		    <ion-select [(ngModel)]="user.profile.mt_frequency" cancelText="취소" okText="확인" placeholder="선택하세요"  (ionChange)="profileChange('frequency', $event)">
+		    	<ion-select-option value="1">월 1회 이하</ion-select-option>
+		    	<ion-select-option value="2">월 1회</ion-select-option>
+		    	<ion-select-option value="3">월 2~3회</ion-select-option>
+		    	<ion-select-option value="4">월 4~5회</ion-select-option>
+		    	<ion-select-option value="5">월 6회 이상</ion-select-option>
+		    </ion-select>
+		  </ion-item>	
+		  <ion-item lines="full" mode="md" [ngClass]="{ 'non-value': user.profile.mt_career==0 }">
+		    <ion-label><strong>경력</strong></ion-label>
+		    <ion-select [(ngModel)]="user.profile.mt_career" cancelText="취소" okText="확인" placeholder="선택하세요" (ionChange)="profileChange('career', $event)">
+		    	<ion-select-option value="1">1년 이하</ion-select-option>
+		    	<ion-select-option value="2">1~3년</ion-select-option>
+		    	<ion-select-option value="3">4~6년</ion-select-option>
+		    	<ion-select-option value="4">7~10년</ion-select-option>
+		    	<ion-select-option value="5">10년 이상</ion-select-option>
+		    	<ion-select-option value="6">20년 이상</ion-select-option>
+		    	<ion-select-option value="7">30년 이상</ion-select-option>
+		    </ion-select>
+		  </ion-item>
+		  <ion-item lines="full" mode="md" [ngClass]="{ 'non-value': user.profile.mt_level==0 }">
+		    <ion-label><strong>수준</strong></ion-label>
+		    <ion-select [(ngModel)]="user.profile.mt_level" cancelText="취소" okText="확인" placeholder="선택하세요" (ionChange)="profileChange('level', $event)">
+		    	<ion-select-option value="1">뒷산워킹</ion-select-option>
+		    	<ion-select-option value="2">등산초보자</ion-select-option>
+		    	<ion-select-option value="3">일반등산인</ion-select-option>
+		    	<ion-select-option value="4">등산매니아</ion-select-option>
+		    	<ion-select-option value="5">캠핑매니아</ion-select-option>
+		    	<ion-select-option value="6">트레킹매니아</ion-select-option>
+		    	<ion-select-option value="7">클라이밍매니아</ion-select-option>
+		    </ion-select>
+		  </ion-item>
+		  <ion-item lines="full" mode="md" [ngClass]="{ 'non-value': user.profile.mt_reason==0 }">
+		    <ion-label><strong>산행이유</strong></ion-label>
+		    <ion-select [(ngModel)]="user.profile.mt_reason" cancelText="취소" okText="확인" placeholder="선택하세요" (ionChange)="profileChange('reason', $event)">
+		    	<ion-select-option value="1">건강을 위해</ion-select-option>
+		    	<ion-select-option value="2">즐거움을 찾고자</ion-select-option>
+		    	<ion-select-option value="3">안정과 휴식을 위해</ion-select-option>
+		    	<ion-select-option value="4">다이어트를 위하여</ion-select-option>
+		    	<ion-select-option value="5">스트레스 풀려고</ion-select-option>
+		    	<ion-select-option value="6">자신감,성취감 위해</ion-select-option>
+		    	<ion-select-option value="7">대인관계를 위해</ion-select-option>
+		    </ion-select>
+		  </ion-item>
+		</ion-list>
+		
+		<ion-list mode="md" margin-bottom>
+			<ion-item class="subject-line" lines="full" mode="md">
+			  <ion-label>
+			    <strong>자주가는 산</strong>
+			  </ion-label>
+			</ion-item>
+			<div padding>
+				<ion-chip *ngFor="let club of user.profile.mt_favorite; let i = index">
+				  <ion-label>{{club.name}}</ion-label>
+				  <ion-icon name="close-circle" (click)="clubDelete(club._id, i)"></ion-icon>
+				</ion-chip>
+				<div padding-top>
+					<ion-button expand="block" color="tertiary" fill="outline" strong (click)="searchMount()">자주가는산 등록</ion-button>
+				</div>
+			</div>
+		</ion-list>
+		
+		<ion-list mode="md" margin-bottom>
+			<ion-item class="subject-line" lines="full" mode="md">
+			  <ion-label>
+			    <strong>내 소개</strong>
+			  </ion-label>
+			</ion-item>
+			<ion-item mode="md">
+			  <ion-textarea rows="4" [(ngModel)]="user.profile.self_introduce" placeholder="입력하세요."></ion-textarea>
+		      <ion-buttons slot="end" (click)="introduce()">
+			    <ion-button color="tertiary" fill="solid">
+			      확인
+			    </ion-button>
+		  	</ion-buttons>
+			</ion-item>
+			<ion-item lines="full" mode="md" [ngClass]="{ 'non-value': user.profile.self_character==0 }">
+		    <ion-label><strong>성격</strong></ion-label>
+		    <ion-select [(ngModel)]="user.profile.self_character" multiple="true" cancelText="취소" okText="확인" placeholder="선택하세요" (ionChange)="profileChange('character', $event)">
+		    	<ion-select-option value="1">유머있는</ion-select-option>
+		    	<ion-select-option value="2">낙천적인</ion-select-option>
+		    	<ion-select-option value="3">지적인</ion-select-option>
+		    	<ion-select-option value="4">박력있는</ion-select-option>
+		    	<ion-select-option value="5">상냥한</ion-select-option>
+		    	<ion-select-option value="6">귀여운</ion-select-option>
+		    	<ion-select-option value="7">감성적인</ion-select-option>
+		    	<ion-select-option value="8">차분한</ion-select-option>
+		    	<ion-select-option value="9">다소곳한</ion-select-option>
+		    	<ion-select-option value="10">외향적인</ion-select-option>
+		    	<ion-select-option value="11">내향적인</ion-select-option>
+		    	<ion-select-option value="12">기타</ion-select-option>
+		    </ion-select>
+		  </ion-item>
+		  <ion-item lines="full" mode="md" [ngClass]="{ 'non-value': user.profile.self_smoking==0 }">
+		    <ion-label><strong>흡연</strong></ion-label>
+		    <ion-select [(ngModel)]="user.profile.self_smoking" cancelText="취소" okText="확인" placeholder="선택하세요" (ionChange)="profileChange('smoking', $event)">
+		    	<ion-select-option value="1">비흡연</ion-select-option>
+		    	<ion-select-option value="2">가끔흡연</ion-select-option>
+		    	<ion-select-option value="3">흡연</ion-select-option>
+		    </ion-select>
+		  </ion-item>
+		  <ion-item lines="full" mode="md" [ngClass]="{ 'non-value': user.profile.self_drinking==0 }">
+		    <ion-label><strong>음주</strong></ion-label>
+		    <ion-select [(ngModel)]="user.profile.self_drinking" cancelText="취소" okText="확인" placeholder="선택하세요" (ionChange)="profileChange('drinking', $event)">
+		    	<ion-select-option value="1">마시지 않아요</ion-select-option>
+		    	<ion-select-option value="2">어쩔수 없을때만 마셔요</ion-select-option>
+		    	<ion-select-option value="3">가끔이지만 약해요</ion-select-option>
+		    	<ion-select-option value="4">평균주량이에요</ion-select-option>
+		    	<ion-select-option value="5">어느정도 즐기는 편이에요</ion-select-option>
+		    	<ion-select-option value="6">많이 즐기는 편이에요</ion-select-option>
+		    </ion-select>
+		  </ion-item>
+		  <ion-item lines="full" mode="md" [ngClass]="{ 'non-value': user.profile.self_religion==0 }">
+		    <ion-label><strong>종교</strong></ion-label>
+		    <ion-select [(ngModel)]="user.profile.self_religion" cancelText="취소" okText="확인" placeholder="선택하세요" (ionChange)="profileChange('religion', $event)">
+		    	<ion-select-option value="1">종교 없음</ion-select-option>
+		    	<ion-select-option value="2">기독교</ion-select-option>
+		    	<ion-select-option value="3">불교</ion-select-option>
+		    	<ion-select-option value="4">유교</ion-select-option>
+		    	<ion-select-option value="5">카톨릭</ion-select-option>
+		    	<ion-select-option value="6">천주교</ion-select-option>
+		    	<ion-select-option value="7">원불교</ion-select-option>
+		    	<ion-select-option value="8">천도교</ion-select-option>
+		    	<ion-select-option value="9">도교</ion-select-option>
+		    	<ion-select-option value="10">이슬람교</ion-select-option>
+		    	<ion-select-option value="11">기타</ion-select-option>
+		    </ion-select>
+		  </ion-item>
+		</ion-list>
+		
+		<ion-list mode="md" margin-bottom>
+			<ion-item class="subject-line" lines="full" mode="md">
+			  <ion-label>
+			    <strong>외모</strong>
+			  </ion-label>
+			</ion-item>
+			<ion-item lines="full" mode="md" [ngClass]="{ 'non-value': user.profile.self_blood==0 }">
+		    <ion-label><strong>혈액형</strong></ion-label>
+		    <ion-select [(ngModel)]="user.profile.self_blood" cancelText="취소" okText="확인" placeholder="선택하세요" (ionChange)="profileChange('blood', $event)">
+		    	<ion-select-option value="1">O형</ion-select-option>
+		    	<ion-select-option value="2">A형</ion-select-option>
+		    	<ion-select-option value="3">B형</ion-select-option>
+		    	<ion-select-option value="4">AB형</ion-select-option>
+		    	<ion-select-option value="5">기타</ion-select-option>
+		    </ion-select>
+		  </ion-item>
+		  <ion-item lines="full" mode="md" [ngClass]="{ 'non-value': user.profile.self_body==0 }">
+		    <ion-label><strong>체형</strong></ion-label>
+		    <ion-select [(ngModel)]="user.profile.self_body" cancelText="취소" okText="확인" placeholder="선택하세요" (ionChange)="profileChange('body', $event)">
+		    	<ion-select-option value="1">보통 체형이에요</ion-select-option>
+		    	<ion-select-option value="2">날씬한 편이에요</ion-select-option>
+		    	<ion-select-option value="3">통통한 편이에요</ion-select-option>
+		    	<ion-select-option value="4">탄탄한 체형이에요</ion-select-option>
+		    	<ion-select-option value="5">조금 마른편이에요</ion-select-option>
+		    	<ion-select-option value="6">조금 뚱뚱한편이에요</ion-select-option>
+		    	<ion-select-option value="7">근육질(운동선수형) 체형이에요</ion-select-option>
+		    	<ion-select-option value="8">기타</ion-select-option>
+		    </ion-select>
+		  </ion-item>
+		  <ion-item lines="full" mode="md" [ngClass]="{ 'non-value': user.profile.self_height==0 }">
+		    <ion-label><strong>신장</strong></ion-label>
+		    <ion-select [(ngModel)]="user.profile.self_height" cancelText="취소" okText="확인" placeholder="선택하세요" (ionChange)="profileChange('height', $event)">
+		    	<ion-select-option value="155">155cm 이하</ion-select-option>
+		    	<ion-select-option *ngFor="let he of heights" value="{{he}}">{{he}}cm</ion-select-option>
+		    	<ion-select-option value="190">190cm 이상</ion-select-option>
+		    </ion-select>
+		  </ion-item>
+		  <ion-item lines="full" mode="md" [ngClass]="{ 'non-value': user.profile.self_weight==0 }">
+		    <ion-label><strong>몸무게</strong></ion-label>
+		    <ion-select [(ngModel)]="user.profile.self_weight" cancelText="취소" okText="확인" placeholder="선택하세요" (ionChange)="profileChange('weight', $event)">
+		    	<ion-select-option value="45">45kg 이하</ion-select-option>
+		    	<ion-select-option *ngFor="let we of weights" value="{{we}}">{{we}}kg</ion-select-option>
+		    	<ion-select-option value="90">90kg 이상</ion-select-option>
+		    </ion-select>
+		  </ion-item>
+		</ion-list>
+
+	</div>
+
+
+</ion-content>

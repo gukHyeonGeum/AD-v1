@@ -1,0 +1,55 @@
+ion-col {
+	text-align: center;
+	font-size: 12px;
+	overflow: hidden;
+	img {
+		border-radius: 40%;
+	}
+	div {
+		margin: 5px 0;
+		white-space: nowrap;
+	    overflow: hidden;
+	    text-overflow: ellipsis;
+	}
+}
+ion-row {
+	margin-bottom: 16px;
+}
+
+ion-content {
+	padding-top: 10px;
+}
+ion-list-header {
+	padding-left: 0;
+}
+
+.grid-list {
+	position: relative;
+	margin-top: 10px;
+	ul {
+		overflow: hidden;
+		margin: 0;
+		padding: 0;
+		li {
+			position: relative;
+			float: left;
+			width: 33.3%;
+			list-style: none;
+			margin-bottom: 40px;
+			.thumb {
+			    margin: 0 8px 0px;
+			    text-align: center;
+				font-size: 12px;
+				div {
+					margin: 5px 0;
+					white-space: nowrap;
+				    overflow: hidden;
+				    text-overflow: ellipsis;
+				}				
+				img {
+					border-radius: 40%;
+				}
+			}
+		}
+	}
+}

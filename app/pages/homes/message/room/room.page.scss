@@ -1,0 +1,157 @@
+
+ion-textarea {
+  margin-top: 0;
+}
+textarea {
+    width: calc(100% - 20px);
+    margin-left: 10px;
+    background-color: #fff;
+    font-size: 1.2em;
+    resize: none;
+    border: none;
+}
+
+ion-item {
+    --background: var(--ion-color-light) !important;
+}
+
+ion-thumbnail {
+  --size: 150px;
+}
+
+.item {
+  position: relative;
+  overflow: hidden;
+  padding: 5px 16px;
+  background-color: #f4f5f8 !important;
+}
+
+.item:first-child {
+  padding-top: 15px;
+}
+.item:last-child {
+  padding-bottom: 15px;
+}
+
+.chat-field {
+  overflow: hidden;
+  margin-top: 10px;
+}
+
+ion-avatar {
+  float: left;
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+  img, ion-img {
+    border-radius: 40%;
+  }
+}
+
+.avatar {
+  float: left;
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+  img, ion-img {
+    border-radius: 40%;
+  }
+}
+
+.chat-bubble {
+  float: left;
+  position: relative;  
+}
+.chat-bubble label {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.chat-bubble.left {
+  float: left;
+  max-width: calc(90% - 50px);
+  text-align: left;
+}
+.chat-bubble.left .chat-message {
+  border: 1px solid #e4e4e4;
+}
+.chat-bubble.right {
+  float: right;
+  
+  max-width: calc(90% - 50px);
+  text-align: left;
+}
+.chat-bubble.right .chat-message {
+  background-color: #673ab7;
+  color: #fff;
+}
+
+.date { font-size: 12px; min-width: 70px }
+.chat-bubble.left .date {
+  position: absolute;
+  bottom: 0;
+  right: -78px;
+}
+
+.chat-bubble.right .date {
+  position: absolute;
+  bottom: 0;
+  left: -78px;
+  text-align: right;
+}
+
+.chat-message {
+    padding: 10px;
+    border-radius: 5px; 
+    background-color: #fff;
+    white-space: normal;
+}
+
+.chat-message.image {
+    padding: 0px;
+    overflow: hidden;
+}
+.chat-message.image img {
+  display: flex;
+  min-width: 150px;
+  min-height: 150px;
+}
+
+.readCount {
+  position: absolute;
+  bottom: 20px;
+  color: #FF5722;
+  font-size: 14px;
+}
+.chat-bubble.left .readCount {
+  right: -15px;
+}
+.chat-bubble.right .readCount {
+  left: -15px;
+}
+
+.spinner {
+  position: absolute;
+  bottom: 0;
+}
+.chat-bubble.left .spinner {
+  right: -30px;
+}
+.chat-bubble.right .spinner {
+  left: -30px;
+}
+
+.none {
+  display: none;
+}
+.block {
+  display: block;
+}
+
+.refresh {
+ position: absolute;
+  bottom: 0;
+  left: -30px; 
+  font-size: 25px;
+}

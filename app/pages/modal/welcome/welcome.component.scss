@@ -1,0 +1,26 @@
+.welcome-wrap {
+  margin-top: 40px;
+  h1 {
+    margin-bottom: 40px;
+  }
+}
+
+.picture {
+  margin-top: 50px;
+  ion-img {
+    width: 150px;
+    margin: 0 auto;
+  }
+}
+
+.match-icon {
+	display: inline-block;
+	margin-right: 10px;
+  ion-icon {
+    padding: 5px;
+    background: #ff5722;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 12px;
+  }
+}

@@ -1,0 +1,139 @@
+<ion-header>
+	<ion-toolbar color="tertiary">
+    <ion-title>등산초대장</ion-title>
+    <ion-buttons slot="end" mode="md">
+	    <ion-button (click)="writeModal()">
+	      <ion-icon slot="icon-only" name="create"></ion-icon>
+	    </ion-button>
+	  </ion-buttons>
+  </ion-toolbar>
+	<ion-toolbar color="tertiary" mode="md">
+	  <ion-segment [(ngModel)]="whichPage" mode="md" (ionChange)="segmentChanged($event)">
+	  	<ion-segment-button value="receive" mode="md">
+	    	<ion-label>수신</ion-label>
+	    </ion-segment-button>
+	    <ion-segment-button value="send" mode="md">
+	    	<ion-label>발송</ion-label>
+	    </ion-segment-button>
+	  </ion-segment>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content class="invite-field" color="light">
+
+	<ion-refresher slot="fixed" (ionRefresh)="doRefresh()" pullFactor="0.5" pullMin="60" pullMax="300">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+	<div class="none-bg" *ngIf="flag"></div>
+	<div class="none-title" *ngIf="flag && whichPage=='send'">아직 초대장 <strong>발송</strong>이 없습니다.</div>
+	<div class="none-title" *ngIf="flag && whichPage=='receive'">아직 초대장 <strong>수신</strong>이 없습니다.</div>
+	<div class="none-subtitle" *ngIf="flag">* 초대장 보내고 등산친구를 만나보세요~</div>	
+
+	<div [ngSwitch]="whichPage" class="invite-wrap" *ngIf="lists">
+
+		<ion-list *ngSwitchCase="'receive'" mode="ios">
+
+			<ion-item 
+				*ngFor="let list of lists" 
+				[ngClass]="{ 'deleted': list.invitation.deleted_at }"
+			>				
+				<ion-avatar slot="start" (click)="ModalProfile(list.invitation_user)" *ngIf="list.invitation_user">
+					<ion-img [src]="list.invitation_user.profile.profile_image ? list.invitation_user.profile.profile_image : images" (ionError)="loadDefault($event)"></ion-img>
+				</ion-avatar>
+				<ion-label (click)="detail(list, 'receive')">
+					<h2>{{list.invitation.mount_name}}</h2>
+					<div class="date">{{list.invitation.invite_time | date:'M.d(E) H:mm':'+0900':'ko-KR'}}</div>
+				</ion-label>
+				<div (click)="detail(list, 'receive')">
+					
+					<ng-container *ngIf="list.status===0">
+						<ion-button shape="round" color="danger" slot="end" size="small" class="new" mode="md" *ngIf="!list.read && !list.invitation.deleted_at">
+							n
+						</ion-button>
+					</ng-container>
+					<ng-container *ngIf="list.status">
+						<ion-button fill="clear" slot="end" size="medium" mode="md">
+							<ion-icon slot="icon-only" name="checkmark-circle" color="tertiary" mode="md" *ngIf="list.status===1 || list.status===4"></ion-icon>
+							<ion-icon slot="icon-only" name="heart" color="danger" mode="md" *ngIf="list.status===2 || list.status===3"></ion-icon>
+						</ion-button>
+						<div class="rsvpCnt">
+							<span *ngIf="list.status===1 || list.status===3">취소</span>
+							<span *ngIf="list.status===2">매치</span>
+							<span *ngIf="list.status===4">신청</span>
+						</div>						
+					</ng-container>
+					
+
+				</div>
+			</ion-item>
+
+		</ion-list>
+
+		<ion-list *ngSwitchCase="'send'" mode="ios">
+			<ion-item (click)="ModalInviteGuide()">
+				<ion-avatar slot="start" *ngIf="user">
+					<ion-img [src]="user.profile.profile_image ? user.profile.profile_image : images" (ionError)="loadDefault($event)"></ion-img>
+				</ion-avatar>
+				<ion-label>
+					<h2>북한산 비봉코스</h2>
+					<div class="date">{{nowDate | date:'M.d(E) H:mm':'+0900':'ko-KR'}}</div>
+				</ion-label>
+				<ion-button color="tertiary" slot="end" strong>발송예시</ion-button>
+			</ion-item>
+			<!-- <ion-item *ngFor="let list of lists" [ngClass]="{ 'selected': list.status==1 && (!list.deleted_at || list.deleted_at), 'deleted': list.deleted_at }" (click)="detail(list, 'send')"> -->
+			<ion-item 
+				*ngFor="let list of lists" 
+				[ngClass]="{ 'deleted': list.deleted_at }" 
+				(click)="detail(list, 'send')"
+			>
+				<ion-avatar slot="start" *ngIf="user">
+					<ion-img [src]="user.profile.profile_image ? user.profile.profile_image : images" (ionError)="loadDefault($event)"></ion-img>
+				</ion-avatar>
+				<ion-label>
+					<h2>{{list.mount_name}}</h2>
+					<div class="date">{{list.invite_time | date:'M.d(E) H:mm':'+0900':'ko-KR'}}</div>
+				</ion-label>
+				<div>
+					<ng-container *ngIf="list.status===0 || list.status===1">
+						<ng-container *ngIf="list.rsvps.length">
+							<ion-button fill="clear" slot="end" size="medium" class="check-button" mode="md">
+								<ion-icon slot="icon-only" name="checkmark-circle" color="tertiary" mode="md"></ion-icon>
+							</ion-button>
+							<div class="rsvpCnt"><ion-text>{{ list.rsvps.length }}명</ion-text></div>
+						</ng-container>
+					</ng-container>
+					<ng-container *ngIf="list.status===2">						
+						<ion-button fill="clear" slot="end" size="medium" mode="md">
+							<ion-icon slot="icon-only" name="heart" color="danger" mode="md"></ion-icon>
+						</ion-button>
+						<div class="rsvpCnt">매치</div>
+					</ng-container>
+					<ng-container *ngIf="list.status===3">						
+						<ion-button fill="clear" slot="end" size="medium" mode="md">
+							<ion-icon slot="icon-only" name="heart" color="danger" mode="md"></ion-icon>
+						</ion-button>
+						<div class="rsvpCnt">취소</div>
+					</ng-container>
+
+
+				</div>
+			</ion-item>
+		</ion-list>
+
+		<ion-infinite-scroll threshold="100px" (ionInfinite)="loadData()">
+	    <ion-infinite-scroll-content
+	      loadingSpinner="bubbles"
+	      loadingText="">
+	    </ion-infinite-scroll-content>
+	  </ion-infinite-scroll>		
+
+	</div>
+
+	<ion-fab vertical="bottom" horizontal="end" slot="fixed">
+		<ion-fab-button color="danger" (click)="writeModal()">
+      <ion-icon name="create" mode="md"></ion-icon>
+    </ion-fab-button>
+	</ion-fab>
+
+</ion-content>

@@ -1,0 +1,50 @@
+<ion-header mode="ios">
+  <ion-toolbar>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+
+	<div *ngIf="view">
+		<ion-list mode="md">
+			<ion-item lines="none" mode="md">
+				<h4><strong>본인 인증</strong></h4>
+		  </ion-item>
+		  <ion-item lines="full" mode="md">
+		  	<ion-label text-wrap>
+		  		<ion-text color="tertiary">
+			  		<p>허위, 중복을 막기위한 절차이며</p>
+			  		<p>번호는 절대 공개되지 않습니다.</p>
+			  	</ion-text>
+		  	</ion-label>
+		  </ion-item>
+		</ion-list>
+		
+		<ion-list class="phone-field" mode="md">
+			<form [formGroup]="certificationForm">
+				<ion-item lines="full" mode="md">
+				  <ion-label position="stacked" mode="md"><strong>휴대폰 번호</strong></ion-label>
+				  <ion-input type="tel" formControlName="phone" placeholder="번호를 입력하세요"></ion-input>
+				  <ion-button color="tertiary" size="default" slot="end" (click)="send()" [disabled]="!certificationForm.valid" *ngIf="!isSms">
+				    인증번호 전송
+				  </ion-button>
+				  <ion-button color="tertiary" fill="outline" size="default" slot="end" (click)="send()" [disabled]="!certificationForm.valid" *ngIf="isSms">
+				    재전송
+				  </ion-button>
+				</ion-item>
+			</form>
+		</ion-list>
+		<ion-list class="phone-field" mode="md">	
+			<form [formGroup]="certNumberForm">
+				<div *ngIf="isSms">
+					<ion-item lines="full" mode="md">
+					  <ion-label position="stacked" mode="md"><strong>인증번호</strong></ion-label>
+					  <ion-input type="text" formControlName="certNumber" placeholder="인증번호 4자리"></ion-input>
+					  <ion-button color="tertiary" size="default" slot="end" (click)="confirmation()" [disabled]="!certNumberForm.valid">인증하기</ion-button>
+					</ion-item>
+				</div>
+			</form>
+		</ion-list>
+		
+	</div>
+
+</ion-content>

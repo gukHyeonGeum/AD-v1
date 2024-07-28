@@ -1,0 +1,60 @@
+<ion-header mode="ios">
+  <ion-toolbar color="danger">
+    <ion-title text-center *ngIf="user"><ion-icon name="mail-open" mode="ios"></ion-icon> 초대장 {{ user._id==info.user_id?'발송':'' }}</ion-title>
+		<ion-buttons slot="end" mode="md">
+			<ion-button (click)="close(false)">
+      	<ion-icon slot="icon-only" name="close" mode="md"></ion-icon>
+      </ion-button>
+    </ion-buttons>    
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="light">
+
+	<ion-card>
+	  <ion-card-content>
+	  	<div class="heart-one"><ion-icon name="heart"></ion-icon></div>
+	  	<div class="heart-two"><ion-icon name="heart"></ion-icon></div>
+	  	<div class="post-avatar" text-center margin-top *ngIf="user">
+				<img [src]="info._id ? info.user.profile.profile_image ? info.user.profile.profile_image : images : user.profile.profile_image ? user.profile.profile_image : images" />
+				<div class="username">{{ info._id ? info.user.username : user.username }}</div>
+			</div>
+			<div class="title" *ngIf="user">
+				<ion-text color="tertiary" *ngIf="!info.user_id"><strong color="tertiary">회원님</strong></ion-text>
+				<ion-text color="tertiary" *ngIf="info.user_id">
+					<strong color="tertiary">{{ user._id==info.user_id ? '회원' : user.username }}님</strong>
+				</ion-text>을 파트너로 초대합니다.
+				<ion-text color="danger"><ion-icon name="heart"></ion-icon></ion-text>
+			</div>
+	    <div class="info">
+	    	<ion-item lines="none">
+			    <ion-icon name="pin" slot="start" mode="md"></ion-icon>
+			    <ion-label>{{ info.mName }}</ion-label>
+			  </ion-item>
+			  <ion-item lines="none">
+			    <ion-icon name="alarm" slot="start" mode="md"></ion-icon>
+			    <ion-label *ngIf="info._id">{{ info.mDate | date:'M.d(E) H:mm':'+0900':'ko-KR'}}</ion-label>
+			    <ion-label *ngIf="!info._id">{{ info.mDate | date: 'M.d(E)':'':'ko-KR' }} {{ info.mTime | date:'H:mm':'+0900'}}</ion-label>
+			  </ion-item>
+			  <ion-item lines="none">
+			    <ion-icon name="cafe" slot="start" mode="ios"></ion-icon>
+			    <ion-label>{{ info.mOption | inviteOption }}</ion-label>
+			  </ion-item>
+			</div>
+	  </ion-card-content>
+	
+	</ion-card>
+
+	<ion-fab vertical="bottom" horizontal="center" slot="fixed" class="fab-bottom">
+  	<ion-fab-button color="light" (click)="close(false)">
+   	 <ion-icon name="close"></ion-icon>
+  	</ion-fab-button>
+		<ion-fab-button color="tertiary" *ngIf="user && info._id && (user._id==info.user_id || info.is_request)">
+			<ion-icon name="checkmark" mode="md"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-button color="tertiary" (click)="close(true)" *ngIf="user && user._id!=info.user_id && !info.is_request">
+			<ion-icon name="checkmark" mode="md"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>

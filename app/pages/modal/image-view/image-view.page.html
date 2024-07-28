@@ -1,0 +1,55 @@
+<ion-content>
+
+  <div class="content" *ngIf="user && user.pictures">
+		<ion-item class="close-fake" lines="none" mode="md" text-center>
+			<ion-button (click)="close()" fill="clear" color="light">
+				<ion-icon name="arrow-back" slot="start"></ion-icon>
+			</ion-button>
+
+			<ion-button slot="end" fill="clear" color="light">
+				{{ slideIndex }} / {{user.pictures.length}}
+			</ion-button>
+		</ion-item>
+
+		<div class="typical" *ngIf="selected_pic.typical">대표사진</div>
+
+  	<ion-slides [options]="sliderOpts" (ionSlideTransitionEnd)="change()">
+	    <ion-slide *ngFor="let pic of user.pictures" id="{{pic._id}}">
+	      <div class="swiper-zoom-container">
+	      	<img src="{{ pic.file_name }}" />
+	      </div>
+	      <input type="hidden" name="id[{{pic._id}}]" value="{{pic._id}}" #slider>
+	    </ion-slide>
+	  </ion-slides>
+
+  </div>
+
+  <div *ngIf="image">
+  	<ion-item class="close-fake" lines="none" mode="md" text-center>
+			<ion-button (click)="close()" fill="clear" color="light">
+				<ion-icon name="arrow-back" slot="start"></ion-icon>
+			</ion-button>
+		</ion-item>
+
+		<ion-slides [options]="sliderOpts" #slider>
+	    <ion-slide>
+	      <div class="swiper-zoom-container">
+	      	<img src="{{ image }}" />
+	      </div>
+	    </ion-slide>
+	  </ion-slides>
+  </div>
+</ion-content>
+
+<ion-footer>
+	<ion-toolbar>
+		<div class="image-b-icon btn-camera" (click)="attach()">
+  		<ion-icon slot="icon-only" name="camera"></ion-icon>
+	  	사진올리기
+	  </div>
+	  <div class="image-b-icon btn-more" (click)="thumbHold(slideIndex)">
+  		<ion-icon slot="icon-only" name="more" mode="ios"></ion-icon>
+  		더보기
+	  </div>
+	</ion-toolbar>
+</ion-footer>

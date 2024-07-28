@@ -1,0 +1,53 @@
+<ion-header mode="ios">
+  <ion-toolbar>
+    <ion-title>상세보기</ion-title>
+    <ion-buttons slot="end" mode="md">
+      <ion-button (click)="close(false)">
+        <ion-icon slot="icon-only" name="close" mode="md"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="light">
+
+  <div *ngIf="view">
+    <ion-list mode="ios">
+      <ion-item lines="full">
+        <ion-label>이용권</ion-label>
+        <ion-text [ngClass]="{'free': !view.price}">
+          {{ view.price ? view.productName + " " + (view.price | number) + "원" : view.productName + " 무료"}}
+        </ion-text>
+      </ion-item>
+      <ion-item lines="full">
+        <ion-label>구매일자</ion-label>
+        {{view.created_at | date:'yy.MM.dd':'+0900':'ko-KR'}}
+      </ion-item>
+      <ion-item lines="full">
+        <ion-label>이용기간</ion-label>
+        <div text-right>{{view.started_at | date:'yy.MM.dd':'+0900':'ko-KR'}}<br />
+        ~ {{view.ended_at | date:'yy.MM.dd':'+0900':'ko-KR'}}</div>
+      </ion-item>
+      <ion-item lines="full" *ngIf="view.price">
+        <ion-label>환불요청</ion-label>
+        <ion-button color="light" mode="ios" (click)="cancel(view)" *ngIf="!view.canceled_at">
+          구매취소
+        </ion-button>
+        <div *ngIf="view.canceled_at">
+            <ion-text color="danger">{{ view.deleted_at ? '구매취소' : '진행중'}}</ion-text>
+        </div>
+      </ion-item>
+      <div *ngIf="view.canceled_at">
+        <ion-item lines="full">
+          <ion-label>요청일자</ion-label>
+          {{view.canceled_at | date:'yy.MM.dd':'+0900':'ko-KR'}}
+        </ion-item>
+        <ion-item lines="full" *ngIf="view.deleted_at">
+          <ion-label>취소일자</ion-label>
+          <div>{{view.deleted_at | date:'yy.MM.dd':'+0900':'ko-KR'}}</div>
+        </ion-item>
+      </div>
+    </ion-list>
+  </div>
+
+</ion-content>

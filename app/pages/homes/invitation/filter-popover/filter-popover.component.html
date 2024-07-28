@@ -1,0 +1,24 @@
+<div>
+	<ion-list>
+		<ion-item (click)="process('match')">
+			<ion-label>
+				매치 확정건
+			</ion-label>
+    </ion-item>
+    <ion-item (click)="process('request')">
+			<ion-label>
+				{{ tabs=='send' ? '신청자 있는건' : '신청중인건'}}
+			</ion-label>
+    </ion-item>
+    <ion-item (click)="process('progress')">
+			<ion-label>
+				진행중
+			</ion-label>
+    </ion-item>
+    <ion-item (click)="process('end')">
+			<ion-label>
+				종료,취소
+			</ion-label>
+    </ion-item>
+	</ion-list>
+</div>

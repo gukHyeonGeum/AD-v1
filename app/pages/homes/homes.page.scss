@@ -1,0 +1,35 @@
+.tab-selected {
+	font-weight: bold;
+	font-size: 13px !important;
+	span {
+		color: #673ab7;
+	}
+}
+
+
+
+ion-tab-bar {
+	height: 70px;
+	ion-tab-button {
+		font-size: 12px;
+		letter-spacing: -1px;
+		ion-icon {
+			font-size: 20px;
+		}
+		
+		ion-badge {
+			&.badgeCnt {
+				top: 8px;
+				height: 16px;
+				font-size: 12px;
+				padding: 0 5px;
+				line-height: 16px;
+			}
+		}
+	}
+}
+
+ion-tab-button {
+	--color: #424242;
+	--color-selected: #975dff;
+}

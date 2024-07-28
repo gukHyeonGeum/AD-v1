@@ -1,0 +1,44 @@
+<ion-content padding color="dark">
+
+	<div class="top-title" text-center>
+		<div class="match-icon"><ion-icon name="heart"></ion-icon></div>
+		<label>좋아요 매치!</label>
+		<p>서로의 프로필을 좋아합니다.</p>
+	</div>
+
+	<div class="complete-field">
+		<ion-grid>
+			<ion-row>
+				<ion-col offset="2" text-center>
+					<img src="{{likeUser.profile.profile_image?likeUser.profile.profile_image:images}}">
+				</ion-col>
+				<ion-col size="2" text-center class="ion-justify-content-between">
+					<ion-label>
+						<ion-icon slot="icon-only" name="heart" color="danger" mode="md"></ion-icon>
+					</ion-label>
+				</ion-col>
+				<ion-col text-center>
+					<img src="{{likeTarget.profile.profile_image?likeTarget.profile.profile_image:images}}" (click)="ModalProfile(likeTarget)">
+				</ion-col>
+				<ion-col size="2">
+				</ion-col>
+			</ion-row>
+	  </ion-grid>
+	</div>
+
+</ion-content>
+
+<ion-footer mode="ios" color="dark">
+  <div class="complete-bottom">
+  	<p text-center><ion-text color="light">그분께 메시지를 보내주세요~</ion-text></p>
+		<div padding>
+			<ion-button expand="block" size="large" color="danger" margin-top strong  (click)="close('message')">
+				<ion-icon slot="start" name="text" mode="ios"></ion-icon>
+				메시지보내기
+			</ion-button>
+			<ion-button expand="block" size="large" color="light" fill="outline" strong margin-top (click)="close(false)">
+				나중에 하기
+			</ion-button>
+		</div>
+	</div>
+</ion-footer>

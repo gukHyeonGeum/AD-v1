@@ -1,0 +1,24 @@
+ion-note {
+  font-size: 20px;
+}
+
+ion-list {
+  padding-top: 0;
+}
+
+.phone-field {
+
+	.label-stacked {
+		font-size: 21px;
+		margin: -8px 0 5px 0;
+	}
+	.item-has-focus {
+		.label-stacked {
+			color: #673ab7;
+		}
+	}
+
+	ion-input {
+		font-size: 21px;
+	}
+}

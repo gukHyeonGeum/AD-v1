@@ -1,0 +1,41 @@
+ion-avatar {
+	width: 50px;
+	height: 50px;
+	img {
+		border-radius: 40%;
+	}
+}
+
+ion-row {
+	margin-bottom: 40px;
+}
+
+ion-col {
+	outline: 0;
+	ion-label {
+		display: block !important;
+		font-size: 13px;
+		color: #1f1f1f;
+	}
+}
+
+.test1 {
+	div {
+		font-size: 13px;
+		color: #272727;
+	}
+	ion-icon {
+		fill: #c5a2ff;
+	}
+}
+
+
+.test2 {
+	div {
+		font-size: 13px;
+		color: #1f1f1f;
+	}
+	ion-icon {
+		fill: #424242;
+	}
+}

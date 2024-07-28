@@ -1,0 +1,39 @@
+.match-icon {
+	display: inline-block;
+	margin-right: 10px;
+  ion-icon {
+    padding: 5px;
+    background: #ff5722;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 12px;
+  }
+}
+
+.complete-field {
+	margin-top: 60px;
+	ion-label {
+		font-size: 30px;
+		ion-icon {
+			margin-top: 30px;
+		}
+	}
+	img {
+		border-radius: 50%;
+	}
+}
+
+.top-title {
+	margin-top: 40px;
+	label {
+		font-size: 24px;
+		font-weight: bold;
+	}
+	p {
+		font-size: 16px;
+	}
+}
+
+ion-footer {
+	background: #222428;
+}

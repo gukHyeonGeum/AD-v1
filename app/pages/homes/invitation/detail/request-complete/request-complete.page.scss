@@ -1,0 +1,29 @@
+.post-avatar {
+	height: 200px;
+	padding-top: 20px;
+	// border-bottom: 0.55px solid rgba(0,0,0,0.13);
+	img {
+		width: 100px;
+		height: 100px;
+		border-radius: 50%;
+	}
+	p {
+		margin-top: 5px;
+	}
+}
+
+.complete-field {
+	ion-label {
+		font-size: 30px;
+		ion-icon {
+			margin-top: 30px;
+		}
+	}
+	img {
+		border-radius: 50%;
+	}
+}
+
+.complete-bottom {
+	margin-top: 80px;
+}

@@ -1,0 +1,123 @@
+<ion-header>
+	<ion-toolbar color="tertiary">
+		<ion-title>좋아요</ion-title>
+		<ion-buttons slot="end" mode="md">
+			<ion-button>
+				<ion-icon slot="icon-only" name="remove" color="tertiary"></ion-icon>
+			</ion-button>
+		</ion-buttons>
+  </ion-toolbar>
+	<ion-toolbar color="tertiary" mode="md">
+	  <ion-segment [(ngModel)]="whichPage" mode="md" (ionChange)="segmentChanged($event)">
+	  	<ion-segment-button value="send" mode="md">
+	    	<ion-label>보냄</ion-label>
+	    </ion-segment-button>
+	    <ion-segment-button value="receive" mode="md">
+				<ion-label>
+					받음 
+					<ion-badge color="danger" *ngIf="badge && badge.likeRequest">{{ badge.likeRequest }}</ion-badge>		
+				</ion-label>
+	    </ion-segment-button>
+	    <ion-segment-button value="match" mode="md">
+	    	<ion-label>
+					매치 
+					<ion-badge color="danger" *ngIf="badge && badge.likeMatch">{{ badge.likeMatch }}</ion-badge>	
+				</ion-label>
+	    </ion-segment-button>
+	  </ion-segment>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content color="light">
+
+	<ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)" pullFactor="0.5" pullMin="60" pullMax="300">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+	<div [ngSwitch]="whichPage" class="like-wrap">
+
+		<div class="none-list" *ngIf="flag && whichPage=='send'">'좋아요' 보낸게 없습니다.</div>
+		<div class="none-list" *ngIf="flag && whichPage=='receive'">'좋아요' 받은게 없습니다.</div>
+		<div class="none-list match" *ngIf="flag && whichPage=='match'">서로 '매치'건이 없어요.</div>
+		<div class="none-list-bottom" *ngIf="flag"><p>'좋아요'를 많이 보낼수록</p><p>더 많은 매치가 성사됩니다.</p></div>
+		<div class="none-bg" *ngIf="flag"></div>
+
+		<ion-list *ngSwitchCase="'send'" mode="ios">
+		 <!--  <ion-item-sliding>
+		    <ion-item-options side="start">
+		      <ion-item-option (click)="favorite(item)">Favorite</ion-item-option>
+		      <ion-item-option color="danger" (click)="share(item)">Share</ion-item-option>
+		    </ion-item-options> -->
+
+				<ion-item *ngFor="let list of lists" (click)="ModalProfile(list, list.target_id)">
+					<ion-avatar slot="start">
+						<ion-img src="{{list.target_id.profile.profile_image}}" (ionError)="loadDefault($event)"></ion-img>
+					</ion-avatar>
+					<ion-label>
+						<h2>{{list.target_id.username}}</h2>
+						<div class="profile">{{ list.target_id.profile.gender | gender }} {{ list.target_id.profile.birth | age }}, {{ list.target_id.profile.area | area }}</div>
+						<div class="date">{{list.created_at | date:'M.d(E) H:mm':'+0900':'ko-KR'}}</div>
+					</ion-label>
+				</ion-item>
+
+		<!--     <ion-item-options side="end">
+		      <ion-item-option (click)="unread(item)">Unread</ion-item-option>
+		    </ion-item-options>
+		  </ion-item-sliding>		 -->	
+		</ion-list>
+
+		<ion-list *ngSwitchCase="'receive'" mode="ios">
+			<ion-item *ngFor="let list of lists" (click)="ModalProfile(list, list.user_id)">
+				<ion-avatar slot="start">
+					<ion-img src="{{list.user_id.profile.profile_image}}" (ionError)="loadDefault($event)"></ion-img>
+				</ion-avatar>
+				<ion-label>
+					<h2>{{list.user_id.username}}</h2>
+					<div class="profile">{{ list.user_id.profile.gender | gender }} {{ list.user_id.profile.birth | age }}, {{ list.user_id.profile.area | area }}</div>
+					<div class="date">{{list.created_at | date:'M.d(E) H:mm':'+0900':'ko-KR'}}</div>
+				</ion-label>
+				<ion-button shape="round" color="danger" slot="end" size="small" class="new" *ngIf="!list.read">
+					n
+				</ion-button>
+			</ion-item>
+			
+		</ion-list>
+
+		<ion-list *ngSwitchCase="'match'" mode="ios">
+			<ion-item *ngFor="let list of lists">
+				<ng-container *ngIf="user&&user._id==list.user_id._id">
+					<ion-avatar slot="start" (click)="ModalProfile(list, list.target_id)">
+						<ion-img src="{{list.target_id.profile.profile_image}}" (ionError)="loadDefault($event)"></ion-img>
+					</ion-avatar>
+					<ion-label (click)="matchModal(list)">
+						<h2>{{list.target_id.username}}</h2>
+						<div class="profile">{{ list.target_id.profile.gender | gender }} {{ list.target_id.profile.birth | age }}, {{ list.target_id.profile.area | area }}</div>
+						<div class="date">{{list.created_at | date:'M.d(E) H:mm':'+0900':'ko-KR'}}</div>
+					</ion-label>
+				</ng-container>
+				<ng-container *ngIf="user._id!=list.user_id._id">
+					<ion-avatar slot="start" (click)="ModalProfile(list, list.user_id)">
+						<ion-img src="{{list.user_id.profile.profile_image}}" (ionError)="loadDefault($event)"></ion-img>
+					</ion-avatar>
+					<ion-label (click)="matchModal(list)">
+						<h2>{{list.user_id.username}}</h2>
+						<div class="profile">{{ list.user_id.profile.gender | gender }} {{ list.user_id.profile.birth | age }}, {{ list.user_id.profile.area | area }}</div>
+						<div class="date">{{list.created_at | date:'M.d(E) H:mm':'+0900':'ko-KR'}}</div>
+					</ion-label>
+				</ng-container>
+				
+				<ion-button shape="round" color="danger" slot="end" size="small" class="new" *ngIf="!list.read && user._id == list.user_id._id">
+					n
+				</ion-button>
+			</ion-item>
+		</ion-list>
+
+		<ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+	    <ion-infinite-scroll-content
+	      loadingSpinner="bubbles"
+	      loadingText="">
+	    </ion-infinite-scroll-content>
+	  </ion-infinite-scroll>
+
+	</div>
+</ion-content>

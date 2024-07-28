@@ -1,0 +1,50 @@
+<ion-header mode="ios">
+  <ion-toolbar>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+	
+	<div *ngIf="view">
+		<ion-list mode="ios">
+			<ion-item lines="none">
+				<h4><strong>서비스 약관 동의</strong></h4>
+		  </ion-item>
+		</ion-list>
+		
+		<form [formGroup]="termsForm" novalidate>
+		<ion-list margin-top mode="md">
+			<ion-item lines="full" padding-bottom mode="md">
+				<ion-label><strong>모두 확인, 동의합니다.</strong></ion-label>
+		    <ion-checkbox color="tertiary" slot="start" (click)="aggrementAll()"></ion-checkbox>
+		  </ion-item>
+		  <ion-item lines="none" mode="md">
+		  	<ion-label>[필수] 이용약관 동의</ion-label>
+		    <ion-checkbox class="checkbox" checked="false" color="tertiary" slot="start" formControlName="aggrementA"></ion-checkbox>
+		    <ion-icon name="arrow-forward" slot="end" mode="ios" (click)="modalOpen('A')"></ion-icon>
+		  </ion-item>
+		  <ion-item lines="none" mode="md">
+		  	<ion-label>[필수] 개인정보 수집 및 이용동의</ion-label>
+		    <ion-checkbox class="checkbox" checked="false" color="tertiary" slot="start" formControlName="aggrementB"></ion-checkbox>
+		    <ion-icon name="arrow-forward" slot="end" mode="ios" (click)="modalOpen('B')"></ion-icon>
+		  </ion-item>
+		  <ion-item lines="none" mode="md">
+		  	<ion-label>[선택] 개인정보 제3자 제공동의</ion-label>
+		    <ion-checkbox class="checkbox" checked="false" color="tertiary" slot="start" formControlName="aggrementC"></ion-checkbox>
+		    <ion-icon name="arrow-forward" slot="end" mode="ios" (click)="modalOpen('C')"></ion-icon>
+		  </ion-item>
+		  <ion-item lines="full" mode="md">
+		  	<ion-label>[선택] 마케팅 정보 활용동의</ion-label>
+		    <ion-checkbox class="checkbox" checked="false" color="tertiary" slot="start" formControlName="aggrementD"></ion-checkbox>
+		    <ion-icon name="arrow-forward" slot="end" mode="ios" (click)="modalOpen('D')"></ion-icon>
+		  </ion-item>
+		</ion-list>
+		</form>
+	</div>
+
+</ion-content>
+
+<ion-footer mode="ios">
+  <div *ngIf="view">
+  	<ion-button margin color="tertiary" expand="block" size="large" (click)="confirmation()" [disabled]="!termsForm.valid">다음</ion-button>
+  </div>
+</ion-footer>

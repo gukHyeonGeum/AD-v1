@@ -1,0 +1,55 @@
+<ion-header mode="ios">
+  <ion-toolbar color="tertiary">
+		<ion-title>친구추천</ion-title>
+		<ion-buttons slot="end" mode="md">
+			<ion-button>
+				<ion-icon slot="icon-only" name="remove" color="tertiary"></ion-icon>
+			</ion-button>
+		</ion-buttons>		
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="light">
+
+	<ion-refresher slot="fixed" (ionRefresh)="doRefresh()" pullFactor="0.5" pullMin="60" pullMax="300">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+	<ion-list>
+		<div class="grid-list">
+			<ul>
+				<li *ngFor="let list of lists; let i = index">
+					<ion-card text-center *ngIf="!list.target_id.deleted_at">
+						<ion-img [src]="list.target_id.profile.profile_image?list.target_id.profile.profile_image:images" [ngStyle]="imgStype" (ionError)="loadDefault($event)" (click)="ModalProfile(list, i)"></ion-img>
+		    		<ion-card-content mode="md">
+		    			<ion-button fill="clear" slot="end" (click)="like(list)" *ngIf="!list.like" mode="md">
+						  	<ion-icon slot="icon-only" name="heart-empty" color="danger" mode="md"></ion-icon>
+							</ion-button>
+							<ion-button fill="clear" slot="end" *ngIf="list.like" mode="md">
+								<ion-icon slot="icon-only" name="heart" color="danger" mode="md"></ion-icon>
+							</ion-button>
+							<ion-button fill="clear" slot="end" (click)="ModalMessage(list.target_id, user)" mode="md">
+						  	<ion-icon slot="icon-only" name="text" color="tertiary" mode="ios"></ion-icon>
+							</ion-button>
+						</ion-card-content>
+						<div class="profile" (click)="ModalProfile(list, i)">
+							<p>{{ list.target_id.username }}, {{ list.target_id.profile.birth | age }}</p>
+						</div>
+						<ion-button shape="round" color="danger" size="small" class="new" *ngIf="!list.read" mode="md">
+							n
+						</ion-button>
+		    	</ion-card>
+		    	
+				</li>
+			</ul>
+		</div>
+	</ion-list>
+
+	<ion-infinite-scroll threshold="100px" (ionInfinite)="loadData()">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+</ion-content>

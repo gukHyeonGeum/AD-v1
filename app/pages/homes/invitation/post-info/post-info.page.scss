@@ -1,0 +1,22 @@
+.info-wrap {
+	overflow: hidden;
+	margin-top: 20px;
+
+	.title {
+		margin: 30px 0;
+	}
+	.first {
+		margin-bottom: 30px;
+	}
+	.second {
+		margin-bottom: 30px;
+	}
+}
+
+ion-item.not {
+	width: 190px;
+	margin: 0 auto;
+}
+ion-checkbox {
+	margin: 16px;
+}

@@ -1,0 +1,36 @@
+<ion-header mode="ios">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/payment" mode="md"></ion-back-button>
+    </ion-buttons>
+    <ion-title>구매내역</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="light">
+
+  <div class="none-title" *ngIf="lists && !lists.length">아직 구매내역이 없습니다.</div>
+
+  <ion-list mode="ios">
+    <ion-item *ngFor="let list of lists" lines="full" detail (click)="ViewModal(list._id)">
+      <div class="match-icon"><ion-icon name="heart" slot="start"></ion-icon></div>
+      <ion-label>
+        <h3>
+          <strong>
+            이용권 : 
+            <ion-text [ngClass]="{'free': !list.price}">
+              {{ list.price ? list.productName + " " + (list.price | number) + "원" : list.productName + " 무료"}}
+            </ion-text>
+          </strong>
+        </h3>
+        <p>
+          구매일: {{list.created_at | date:'yy.MM.dd':'+0900':'ko-KR'}}
+          <ion-text class="ion-padding-start" color="danger" *ngIf="list.deleted_at">
+            취소
+          </ion-text>
+        </p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+</ion-content>

@@ -1,0 +1,9 @@
+ion-list {
+  padding-top: 0;
+  padding-bottom: 15px;
+  background: #f4f5f8;
+}
+
+ion-list:last-child {
+  border-top: 1px solid rgba(0, 0, 0, 0.13);
+}

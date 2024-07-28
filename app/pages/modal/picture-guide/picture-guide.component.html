@@ -1,0 +1,122 @@
+<ion-header mode="ios">
+  <ion-toolbar>
+    <ion-title text-center>사진등록 안내</ion-title>
+    <ion-buttons slot="end" mode="md">
+      <ion-button (click)="close(false)">
+        <ion-icon slot="icon-only" name="close" mode="md"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+  
+<ion-content>
+
+  <div>
+    <div class="ion-padding-start">
+      <h1>
+        <ion-text color="danger"><ion-icon name="heart"></ion-icon></ion-text> 
+        <ion-text color="tertiary"><strong>추천하는 사진</strong></ion-text>
+      </h1>
+    </div>
+    <div>
+      <ion-list *ngIf="age==30">
+        <ion-list-header mode="md">
+          <ion-label><strong>웃는 얼굴</strong></ion-label>
+        </ion-list-header>
+        <ion-grid>
+          <ion-row>
+            <ion-col text-center>
+              <img src="/assets/icon/woman_30_smile.jpg" />
+            </ion-col>
+            <ion-col text-center>
+              <img src="/assets/icon/man_30_smile.jpg" />
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        <ion-list-header mode="md">
+          <ion-label><strong>등산 활동</strong></ion-label>
+        </ion-list-header>
+        <ion-grid>
+          <ion-row>
+            <ion-col text-center>
+              <img src="/assets/icon/woman_30_mount.jpg" />
+            </ion-col>
+            <ion-col text-center>
+              <img src="/assets/icon/man_30_mount.jpg" />
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-list>
+      <ion-list *ngIf="age==40">
+        <ion-list-header mode="md">
+          <ion-label><strong>웃는 얼굴</strong></ion-label>
+        </ion-list-header>
+        <ion-grid>
+          <ion-row>
+            <ion-col text-center>
+              <img src="/assets/icon/woman_40_smile.jpg" />
+            </ion-col>
+            <ion-col text-center>
+              <img src="/assets/icon/man_40_smile.jpg" />
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        <ion-list-header mode="md">
+          <ion-label><strong>등산 활동</strong></ion-label>
+        </ion-list-header>
+        <ion-grid>
+          <ion-row>
+            <ion-col text-center>
+              <img src="/assets/icon/woman_40_mount.jpg" />
+            </ion-col>
+            <ion-col text-center>
+              <img src="/assets/icon/man_40_mount.jpg" />
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-list>
+    </div>
+    <div class="ion-padding-start">
+      <h1>
+        <ion-text color="medium"><ion-icon name="trash" mode="ios"></ion-icon></ion-text> 
+        <ion-text color="danger"><strong>비추천 사진</strong></ion-text>
+      </h1>
+    </div>
+    <div>
+      <ion-list>
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <p text-left><strong>연예인, 캐릭터 등..</strong></p>
+              <img src="/assets/icon/fake_01.jpg" />
+            </ion-col>
+            <ion-col>
+              <p text-left><strong>자연, 산, 꽃 등..</strong></p>
+              <img src="/assets/icon/fake_02.jpg" />
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-list>
+      <p text-center class="error">※ 가짜, 허위사진은 삭제 대상입니다.</p>
+      <ion-list class="content-text" padding>
+        <p>
+          <ion-text color="danger">
+            <ion-icon name="heart"></ion-icon>
+          </ion-text> 
+          <strong>누구나 사진을 보고 첫 판단을 하게 됩니다.</strong>
+        </p>
+        <div class="ion-padding-start">
+          <p>새로운 파트너를 원하신다면..</p>
+          <p>회원님의 <strong><u>베스트 사진</u></strong>을 등록하세요~</p>
+        </div>
+      </ion-list>
+    </div>
+  </div>
+
+</ion-content>
+
+<ion-footer mode="ios">
+  <ion-button expand="block" size="large" color="tertiary" margin (click)="close(true)">
+    프로필 사진 올리기
+  </ion-button>
+</ion-footer>

@@ -1,0 +1,40 @@
+<ion-header mode="ios">
+  <ion-toolbar>
+    <ion-title text-center>앵두 방문을 환영합니다!</ion-title>
+		<ion-buttons slot="end" mode="md">
+      <ion-button>
+        <ion-icon slot="icon-only" name="remove" color="light" mode="ios"></ion-icon>
+      </ion-button>
+    </ion-buttons>    
+  </ion-toolbar>
+</ion-header>
+  
+<ion-content>
+
+  <div text-center class="welcome-wrap">
+    <div>
+      <ion-text color="tertiary" margin-bottom>
+        <h1><strong>★ 리뉴얼 무료 이벤트 ★</strong></h1>
+      </ion-text>
+    </div>
+    <div>
+      <p>프로필을 등록하시면</p>
+      <p>
+        <ion-text color="danger">
+          <div class="match-icon"><ion-icon name="heart"></ion-icon>하트</div>
+        </ion-text> <strong>1개월 이용권을 드립니다.</strong>
+      </p>
+    </div>
+    <div class="picture">
+      <ion-img src="assets/icon/welcome_picture.jpg"></ion-img>
+      <!-- <img src="/assets/icon/welcome_picture.jpg" /> -->
+    </div>
+  </div>
+
+</ion-content>
+
+<ion-footer mode="ios">
+  <ion-button expand="block" size="large" color="tertiary" margin (click)="next()">
+    프로필 등록하기 <ion-icon slot="end" name="arrow-forward"></ion-icon>
+  </ion-button>
+</ion-footer>

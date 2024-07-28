@@ -1,0 +1,68 @@
+<ion-content>
+
+	<ion-list mode="ios" margin-top>
+	  <ion-item lines="none">
+			<h4><strong>기본정보 입력</strong></h4>
+		</ion-item>
+		<ion-item lines="full">
+			<ion-label text-wrap>
+				<ion-text color="tertiary">
+					<p>회원님께 맞는 파트너추천을 위하여</p>
+					<p>필요한 기본정보 입력입니다.</p>
+				</ion-text>
+			</ion-label>
+		</ion-item>
+	</ion-list>
+
+	<form [formGroup]="userProfileForm" novalidate>
+		<ion-input type="hidden" formControlName="phone" value="{{phone}}"></ion-input>
+
+		<ion-list mode="md">
+			<ion-item lines="full" mode="md">
+			  <ion-label position="stacked"><strong>이름</strong></ion-label>
+				<ion-input type="text" formControlName="realname" placeholder="실명을 입력하세요" (ionInput)="realCheck()"></ion-input>
+				<p text-center class="error" *ngIf="realOverlap">{{realOverlapMsg}}</p>
+			</ion-item>
+			<ion-item lines="full" mode="md">
+			  <ion-label position="stacked"><strong>닉네임(한글 2자~8자)</strong></ion-label>
+			  <ion-input type="text" formControlName="nickname" placeholder="입력하세요" (ionInput)="nickCheck()"></ion-input>
+				<p text-center class="error" *ngIf="nickOverlap">{{nickOverlapMsg}}</p>
+			</ion-item>
+			<ion-item lines="full" mode="md">
+			  <ion-label><strong>생년월일</strong></ion-label>
+			  <ion-datetime display-format="YYYY-MM-DD" min="1950" max="{{ limitAge | date:'yyyy' }}" formControlName="birth"></ion-datetime>
+			</ion-item>
+			<ion-item lines="full" mode="md">
+		    <ion-label><strong>성별</strong></ion-label>
+		    <ion-select placeholder="선택하세요" formControlName="gender" okText="확인" cancelText="취소">
+		      <ion-select-option value="">선택하세요</ion-select-option>
+		      <ion-select-option value="female">여성</ion-select-option>
+		      <ion-select-option value="male">남성</ion-select-option>
+		    </ion-select>
+		  </ion-item>
+			<ion-item lines="full" mode="md">
+		    <ion-label><strong>지역</strong></ion-label>
+		    <ion-select placeholder="선택하세요" formControlName="area">
+		      <ion-select-option value="">선택하세요</ion-select-option>
+		      <ion-select-option value="1">서울</ion-select-option>
+		      <ion-select-option value="2">경기</ion-select-option>
+		      <ion-select-option value="3">인천</ion-select-option>
+		      <ion-select-option value="4">강원</ion-select-option>
+		      <ion-select-option value="5">경북</ion-select-option>
+		      <ion-select-option value="6">경남</ion-select-option>
+		      <ion-select-option value="7">충북</ion-select-option>
+		      <ion-select-option value="8">충남</ion-select-option>
+		      <ion-select-option value="9">전북</ion-select-option>
+		      <ion-select-option value="10">전남</ion-select-option>
+		      <ion-select-option value="11">제주</ion-select-option>
+		    </ion-select>
+		  </ion-item>
+		  	  
+		</ion-list>
+
+	</form>
+
+</ion-content>
+<ion-footer mode="ios">
+  <ion-button margin color="tertiary" expand="block" size="large" (click)="confirmation()" [disabled]="!userProfileForm.valid">회원가입</ion-button>
+</ion-footer>
